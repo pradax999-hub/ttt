@@ -85,7 +85,7 @@
     html[data-theme="light"] .pill { background: rgba(255,255,255,.86); border-color: rgba(9,9,11,.12); color: #3f3f46; box-shadow: var(--shadow); }
     html[data-theme="light"] .pill .icon { color: #a07c1e; }
     html[data-theme="light"] .eyebrow-dot { background: #a07c1e; box-shadow: 0 0 8px rgba(160,124,30,.4); }
-    html[data-theme="light"] .booking { background: var(--panel-3); border-color: var(--line); box-shadow: var(--shadow); }
+    html[data-theme="light"] .booking { background: var(--panel-3); border-color: rgba(160,124,30,.34); box-shadow: 0 16px 38px rgba(24,24,27,.10), inset 0 1px 0 rgba(255,255,255,.9); }
     html[data-theme="light"] .booking-note, html[data-theme="light"] .booking-foot, html[data-theme="light"] .foot-right .note { color: var(--ink-soft); }
     html[data-theme="light"] .booking-foot .icon { color: #8a7233; }
     html[data-theme="light"] .field, html[data-theme="light"] .input { background: var(--field); border-color: var(--line); color: var(--text); box-shadow: none; }
@@ -298,7 +298,7 @@
     .hero-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
     .pill { display: inline-flex; align-items: center; gap: 7px; padding: 8px 13px; border: 1px solid rgba(245,198,107,.3); border-radius: 40px; background: rgba(20,17,10,.6); backdrop-filter: blur(9px); -webkit-backdrop-filter: blur(9px); color: #e6ddc9; font-size: 11.5px; letter-spacing: -.01em; }
     .pill .icon { width: 14px; height: 14px; color: var(--accent); }
-    .booking { margin: 0 var(--gutter); padding: 21px 24px 18px; border: 1px solid #35301f; border-radius: 13px; background: rgba(14,12,8,.97); }
+    .booking { margin: 0 var(--gutter); padding: 23px 26px 20px; border: 2px solid rgba(245,198,107,.34); border-radius: 14px; background: rgba(14,12,8,.97); box-shadow: 0 18px 46px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.035); }
     .booking-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; flex-wrap: wrap; }
     .mode-switch { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
     .mode-switch button { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px; border: 1px solid #35301f; border-radius: 7px; color: #a9a293; font-size: 12px; transition: background .25s,color .25s,border-color .25s; }
@@ -307,7 +307,7 @@
     .booking-note { color: #8b8477; font-size: 11px; display: inline-flex; align-items: center; gap: 7px; }
     .booking-note .icon { width: 13px; height: 13px; color: var(--accent); }
     .booking-grid { position: relative; display: grid; grid-template-columns: 1.25fr 26px 1.25fr 1.02fr .62fr .78fr 176px; gap: 9px; align-items: center; }
-    .booking-grid.hourly { grid-template-columns: 1.4fr 1fr 1fr .7fr .8fr 176px; }
+    .booking-grid.hourly { grid-template-columns: 1.4fr 1fr .7fr .62fr .8fr 176px; }
     .field { position: relative; display: flex; flex-direction: column; justify-content: center; height: 64px; border: 1px solid #35301f; border-radius: 7px; padding: 10px 11px 9px 38px; background: var(--field); transition: border-color .2s; min-width: 0; }
     .field:focus-within { border-color: #a9924f; }
     .field > .icon { position: absolute; left: 12px; top: 23px; width: 16px; height: 16px; color: #a4977a; }
@@ -734,10 +734,24 @@
     .err { color: #e6b98f; font-size: 11.5px; line-height: 1.65; margin-top: 11px; }
     .d-actions { display: flex; align-items: center; gap: 10px; margin-top: 22px; }
     .d-actions .btn-solid { flex: 1; }
-    .gallery-img { width: 100%; aspect-ratio: 1.62; object-fit: cover; margin-top: 20px; border-radius: 9px; background: #17150f; }
+    .gallery-stage { position: relative; margin-top: 20px; overflow: hidden; border-radius: 10px; background: var(--panel-2); }
+    .gallery-img { display: block; width: 100%; aspect-ratio: 1.62; object-fit: cover; margin: 0; background: var(--panel-2); }
+    .gallery-slot { display: grid; place-items: center; width: 100%; aspect-ratio: 1.62; padding: 28px; text-align: center; color: var(--ink-soft); background: linear-gradient(145deg,var(--panel-2),var(--panel-3)); }
+    .gallery-slot .icon { width: 38px; height: 38px; color: var(--accent); margin: 0 auto 14px; }
+    .gallery-slot strong { display: block; color: var(--text); font-size: 16px; }
+    .gallery-slot small { display: block; max-width: 420px; margin-top: 8px; line-height: 1.7; }
     .g-ctrl { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; gap: 14px; }
     .g-ctrl > span { color: #9d968a; font-size: 12px; }
     .g-arrows { display: flex; gap: 8px; }
+    .gallery-thumbs { display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); gap: 8px; margin-top: 16px; }
+    .gallery-thumb { position: relative; min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 7px; background: var(--panel-2); color: var(--ink-soft); aspect-ratio: 1.35; transition: border-color .2s,transform .2s; }
+    .gallery-thumb:hover { transform: translateY(-2px); border-color: rgba(245,198,107,.55); }
+    .gallery-thumb.on { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+    .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .gallery-thumb > span { position: absolute; left: 5px; bottom: 4px; display: grid; place-items: center; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 20px; background: rgba(0,0,0,.72); color: #fff; font-size: 9px; }
+    .gallery-thumb.missing { display: grid; place-items: center; padding: 8px; }
+    .gallery-thumb.missing .icon { width: 20px; height: 20px; color: var(--accent); }
+    .gallery-thumb.missing > span { position: static; margin-top: 5px; background: none; color: var(--ink-soft); }
     .icon-btn { display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid #3f3927; border-radius: 50%; }
     .icon-btn:hover { color: var(--accent); border-color: var(--accent); }
     .icon-btn .icon { width: 17px; height: 17px; }
@@ -778,6 +792,7 @@
       h1 { font-size: min(96px,13vh); }
       .lede { font-size: 16.5px; max-width: 470px; }
       .booking-grid { grid-template-columns: 1.25fr 28px 1.25fr 1.02fr .62fr .78fr 196px; gap: 11px; }
+      .booking-grid.hourly { grid-template-columns: 1.4fr 1fr .7fr .62fr .8fr 196px; }
       .field, .quote-btn { height: 70px; }
       .field input, .field select { font-size: 13.5px; }
       .datetime { grid-template-columns: 1fr 72px; }
@@ -799,6 +814,7 @@
       .hero { padding-top: 42px; }
       .booking { padding: 18px; }
       .booking-grid { grid-template-columns: 1.2fr 22px 1.2fr 1fr .62fr .8fr 144px; gap: 7px; }
+      .booking-grid.hourly { grid-template-columns: 1.4fr 1fr .7fr .62fr .8fr 144px; }
       .field { padding-left: 31px; padding-right: 8px; }
       .field > .icon { left: 9px; width: 14px; }
       .field input, .field select { font-size: 11px; }
@@ -873,6 +889,7 @@
       .checkout { grid-template-columns: 1fr 208px; gap: 20px; }
       .summary { padding-left: 17px; }
       .shell { padding: 26px; }
+      .gallery-thumbs { grid-template-columns: repeat(4,minmax(0,1fr)); }
     }
     @media (max-width: 620px) {
       :root { --gutter: 18px; }
@@ -927,6 +944,7 @@
       dialog, dialog.slim { width: calc(100vw - 18px); max-height: calc(100dvh - 26px); }
       .shell { padding: 24px 18px 22px; }
       .d-title { font-size: 23px; }
+      .gallery-thumbs { grid-template-columns: repeat(3,minmax(0,1fr)); }
       .x { top: 16px; right: 14px; }
       .checkout { display: flex; flex-direction: column-reverse; gap: 22px; }
       .summary { border-left: 0; border-bottom: 1px solid #3a341f; padding: 0 0 19px; position: static; }
@@ -1091,12 +1109,12 @@
     const stamp = (date, time) => new Date(`${date}T${time}:00${offset(date)}`);
     function offset(date) { const probe = new Date(`${date}T12:00:00Z`); const s = new Intl.DateTimeFormat('en-US', { timeZone: TZ, timeZoneName: 'longOffset' }).formatToParts(probe).find(p => p.type === 'timeZoneName').value; return s.replace('GMT', '') || '+01:00'; }
 
-    /* ---------- Fleet & prices: actual Wayro tariff (airport <-> Prague fixed, long = per km) ---------- */
+    /* Airport prices match book.letiste-praha.taxi; Sedan can be booked as 1–12 cars. */
     const FLEET = {
-      sedan:   { label: 'Sedan',       base: 850,  pax: 4, bags: 3, seats: 1, rate: 34, city: 390, hour: 690,  ico: 'car',
+      sedan:   { label: 'Sedan',       base: 690,  pax: 4, bags: 3, seats: 1, rate: 34, city: 390, hour: 690,  ico: 'car',
                  model: { cs: 'Škoda Superb nebo obdobný vůz', en: 'Škoda Superb or similar' },
                  img: 'https://images.pexels.com/photos/15194845/pexels-photo-15194845.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200', inside: null },
-      minibus: { label: 'Minibus',     base: 1250, pax: 7, bags: 7, seats: 1, rate: 43, city: 590, hour: 890,  ico: 'van',
+      minibus: { label: 'Minibus',     base: 990, pax: 7, bags: 7, seats: 1, rate: 43, city: 590, hour: 990,  ico: 'van',
                  model: { cs: 'Sedmimístný minivan / Mercedes-Benz V-Class', en: 'Seven-seat minivan / Mercedes-Benz V-Class' },
                  img: 'https://images.pexels.com/photos/36377060/pexels-photo-36377060.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200',
                  inside: 'https://images.pexels.com/photos/17455632/pexels-photo-17455632.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200' },
@@ -1109,6 +1127,20 @@
                  img: 'https://images.pexels.com/photos/17455633/pexels-photo-17455633.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200',
                  inside: 'https://images.pexels.com/photos/17455632/pexels-photo-17455632.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200' }
     };
+    const GALLERY_LABELS = {
+      cs: ['Přední pohled','Boční pohled','Zadní pohled','Přední část interiéru','Zadní sedadla','Sedadla a prostor','Palubní deska','Zavazadlový prostor','Boční dveře','Dětská autosedačka','Detail vozu','Vůz večer'],
+      en: ['Front view','Side view','Rear view','Front interior','Rear seats','Seats and space','Dashboard','Luggage space','Side doors','Child seat','Vehicle detail','Vehicle at night']
+    };
+    function galleryPhotos(key) {
+      const car = FLEET[key], labels = GALLERY_LABELS[lang] || GALLERY_LABELS.cs;
+      return labels.map((label, index) => ({
+        number: index + 1,
+        label,
+        src: `images/fleet/${key}/${String(index + 1).padStart(2, '0')}.webp`,
+        // Only slots 1 and 4 have a temporary stock fallback. Other empty slots stay visibly empty.
+        fallback: index === 0 ? car.img : index === 3 ? car.inside || '' : ''
+      }));
+    }
     const AIRPORT = 'Letiště Praha (PRG)';
     /* Souřadnice jsou skutečné (rozsah města / letiště / vzdálená města). */
     const PLACES = [
@@ -1151,7 +1183,7 @@
     const D = {
       cs: {
         nav: { services: 'Služby', fleet: 'Vozy a ceny', airport: 'Letiště', business: 'Pro firmy', help: 'Nápověda', trips: 'Moje jízdy' },
-        hero: { eyebrow: 'Praha · Letiště Václava Havla (PRG) · nonstop 24/7', l1: 'Taxi na letiště', l2a: 'Bez ', l2em: 'stresu.', lede: 'Fixní cenu znáte předem. Řidič sleduje váš let, čeká s cedulkou a jeho auto vidíte na mapě. Platíte až po jízdě.', p1: 'Letiště – Praha od 850 Kč', p2: 'Autosedačka zdarma', p3: 'Sledujeme váš let', p4: 'Platba u řidiče', p5: 'Živá poloha auta' },
+        hero: { eyebrow: 'Praha · Letiště Václava Havla (PRG) · nonstop 24/7', l1: 'Taxi na letiště', l2a: 'Bez ', l2em: 'stresu', lede: 'Fixní cenu znáte předem. Řidič sleduje váš let, čeká s cedulkou a jeho auto vidíte na mapě. Platíte až po jízdě.', p1: 'Letiště – Praha od 690 Kč', p2: 'Autosedačka zdarma', p3: 'Sledujeme váš let', p4: 'Platba u řidiče', p5: 'Živá poloha auta' },
         modes: { to: 'Na letiště', from: 'Z letiště', long: 'Jiná trasa', hourly: 'Hodinová dispozice' },
         f: { from: 'Odkud', to: 'Kam', when: 'Datum a čas (SEČ)', pax: 'Osoby', car: 'Vůz', hours: 'Počet hodin', cta: 'Vybrat vůz', promo: 'Máte slevový kód?', fixed: 'Fixní cena. Bez skrytých poplatků.', est: 'Orientační cena – potvrdí dispečer.', hourNote: 'Hodinová sazba, minimálně 2 hodiny.', demo: 'Cena dle ceníku Transfer by Van · potvrdí dispečink', ret: 'Zpáteční jízda', retNote: 'Účtuje se cena za každý směr.', quick: 'Oblíbené trasy:' },
         stats: { s1: 'Fixní cena předem', s1s: 'Bez příplatků za provoz a zavazadla', s2: 'Sledujeme váš let', s2s: 'Zpoždění letu čekáme zdarma', s3: 'Autosedačka zdarma', s3s: 'Vajíčko, sedačka i podsedák', s4: 'Platba u řidiče', s4s: 'Hotově nebo kartou po jízdě' },
@@ -1163,7 +1195,7 @@
       },
       en: {
         nav: { services: 'Services', fleet: 'Fleet & prices', airport: 'Airport', business: 'Business', help: 'Help', trips: 'My rides' },
-        hero: { eyebrow: 'Prague · Václav Havel Airport (PRG) · 24/7', l1: 'Airport taxi', l2a: 'Zero ', l2em: 'stress.', lede: 'A fixed price upfront. Your driver tracks the flight, waits with a name sign and you can watch the car on a live map. Pay after the ride.', p1: 'Airport – Prague from 850 CZK', p2: 'Free child seat', p3: 'Flight tracking', p4: 'Pay the driver', p5: 'Live car position' },
+        hero: { eyebrow: 'Prague · Václav Havel Airport (PRG) · 24/7', l1: 'Airport taxi', l2a: 'Zero ', l2em: 'stress', lede: 'A fixed price upfront. Your driver tracks the flight, waits with a name sign and you can watch the car on a live map. Pay after the ride.', p1: 'Airport – Prague from 690 CZK', p2: 'Free child seat', p3: 'Flight tracking', p4: 'Pay the driver', p5: 'Live car position' },
         modes: { to: 'To airport', from: 'From airport', long: 'Other route', hourly: 'Hourly hire' },
         f: { from: 'From', to: 'To', when: 'Date and time (CET)', pax: 'People', car: 'Vehicle', hours: 'Hours', cta: 'Choose vehicle', promo: 'Have a promo code?', fixed: 'Fixed price. No hidden fees.', est: 'Estimate – confirmed by the dispatcher.', hourNote: 'Hourly rate, minimum 2 hours.', demo: 'Priced from the Transfer by Van rate list · confirmed by the backend', ret: 'Return ride', retNote: 'Each direction is charged separately.', quick: 'Popular routes:' },
         stats: { s1: 'Fixed price upfront', s1s: 'No traffic or luggage surcharges', s2: 'We track your flight', s2s: 'Delayed flight? We wait for free', s3: 'Free child seat', s3s: 'Infant, child and booster seats', s4: 'Pay the driver', s4s: 'Cash or card after the ride' },
@@ -1380,6 +1412,7 @@
       const fromField = addressField('from', f.from, S.from, 'f-from');
       const toField = addressField('to', f.to, S.to, 'f-to');
       const hourly = S.mode === 'hourly';
+      const maxPax = FLEET[S.car]?.pax || 1;
       const featureItems = [
         ['shield', L('Pevná cena předem', 'Fixed price upfront'), L('U transferu letiště – Praha vidíte konečnou cenu za celé vozidlo. Žádné příplatky za provoz, zavazadla nebo čekání v koloně.', 'For airport – Prague transfers you see the final price for the whole vehicle. No traffic, luggage or queueing surcharges.')],
         ['landing', L('Let pod kontrolou', 'Flight under control'), L('Stačí zadat číslo letu. Řidič sleduje přílet a při zpoždění letu čeká bezplatně.', 'Enter the flight number. The driver follows the arrival time and waits for free if the flight is delayed.')],
@@ -1429,7 +1462,7 @@
             ${hourly ? '' : `<button class="swap" type="button" data-a="swap" aria-label="↔">${icon('swap')}</button>${toField}`}
             <div class="field f-when">${icon('calendar')}<span class="field-caption">${f.when}</span><div class="datetime"><input id="date" type="date" aria-label="${f.when}" required><input id="time" type="time" value="${S.time}" aria-label="${f.when}" required></div></div>
             ${hourly ? `<label class="field plain f-hours"><span class="field-caption">${f.hours}</span><select id="hours">${[2, 3, 4, 5, 6, 8, 10, 12].map(n => `<option value="${n}" ${n === S.hours ? 'selected' : ''}>${t('hrs')(n)}</option>`).join('')}</select></label>` : ''}
-            <label class="field plain"><span class="field-caption">${f.pax}</span><select id="pax">${[1, 2, 3, 4, 5, 6, 7].map(n => `<option value="${n}" ${n === S.pax ? 'selected' : ''}>${t('pax')(n)}</option>`).join('')}</select></label>
+            <label class="field plain"><span class="field-caption">${f.pax}</span><select id="pax">${Array.from({ length: maxPax }, (_, i) => i + 1).map(n => `<option value="${n}" ${n === S.pax ? 'selected' : ''}>${t('pax')(n)}</option>`).join('')}</select></label>
             <label class="field plain"><span class="field-caption">${f.car}</span><select id="car">${Object.entries(FLEET).map(([k, c]) => `<option value="${k}" ${k === S.car ? 'selected' : ''}>${c.label}</option>`).join('')}</select></label>
             <button class="btn btn-solid quote-btn" type="submit"><span><strong class="quote-amount" id="price" aria-live="polite">${money(fare().total)}</strong><small>${f.cta}</small></span>${icon('arrow')}</button>
           </div>
@@ -1774,7 +1807,7 @@
         const back = stamp(S.retDate, S.retTime);
         if (Number.isNaN(back.getTime()) || back.getTime() < dep.getTime() + 2 * 3600000) return L ? 'Zpáteční jízda musí být alespoň o 2 hodiny později.' : 'The return ride must be at least 2 hours later.';
       }
-      if (S.pax > FLEET[S.car].pax) return L ? `Vůz ${FLEET[S.car].label} pojme ${FLEET[S.car].pax} osob. Zvolte větší vůz.` : `${FLEET[S.car].label} seats ${FLEET[S.car].pax}. Please pick a larger vehicle.`;
+      if (S.pax > FLEET[S.car].pax) return L ? `Vůz ${FLEET[S.car].label} pojme nejvýše ${FLEET[S.car].pax} osob.` : `${FLEET[S.car].label} seats up to ${FLEET[S.car].pax} people.`;
       return '';
     }
 
@@ -2596,13 +2629,16 @@
 
     function gallery(k, inside = false) {
       if (!FLEET[k]) return;
-      gCar = k; gIdx = inside && FLEET[k].inside ? 1 : 0; kind = 'gal'; renderGallery(); open();
+      gCar = k; gIdx = inside ? 3 : 0; kind = 'gal'; renderGallery(); open();
     }
+    const galleryEmpty = photo => `<div class="gallery-slot" data-gallery-empty="${photo.number}">${icon('car')}<div><strong>${esc(photo.label)}</strong><small>${L(`Nahrajte soubor ${photo.src}`, `Upload ${photo.src}`)}</small></div></div>`;
     function renderGallery() {
-      const c = FLEET[gCar], src = gIdx ? c.inside : c.img, two = Boolean(c.inside);
+      const c = FLEET[gCar], photos = galleryPhotos(gCar), photo = photos[gIdx] || photos[0];
       mbody.innerHTML = dHead(L('Vozový park', 'Fleet') + ' / ' + c.label, c.model[lang] || c.model.cs, `${L('Cena letiště – Praha', 'Airport – Prague price')}: ${money(c.base)} · ${L('max', 'max')} ${c.pax} ${L('osob', 'people')} · ${c.bags} ${L('zavazadel', 'bags')} · ${c.seats} ${L('autosedaček', 'child seats')}`)
-        + `<img class="gallery-img" src="${src}" alt="${esc(c.label)}"><div class="g-ctrl"><span>${gIdx ? L('Interiér', 'Interior') : L('Exteriér', 'Exterior')} · ${gIdx + 1}/${two ? 2 : 1}</span><div class="g-arrows"><button class="icon-btn" type="button" data-a="g-prev" ${two ? '' : 'disabled'} aria-label="←">${icon('arrow')}</button><button class="icon-btn" type="button" data-a="g-next" ${two ? '' : 'disabled'} aria-label="→">${icon('arrow')}</button></div></div>
-        <p class="fine">${L('Fotografie ilustrují třídu vozu, konkrétní vůz potvrzuje dispečink.', 'Photos illustrate the class; the exact car is confirmed by dispatch.')}</p>
+        + `<div class="gallery-stage" id="gallery-stage"><img class="gallery-img" src="${esc(photo.src)}" data-fallback="${esc(photo.fallback)}" data-gallery-main="${photo.number}" alt="${esc(c.label + ' — ' + photo.label)}"></div>
+        <div class="g-ctrl"><span><strong>${esc(photo.label)}</strong> · ${photo.number}/12</span><div class="g-arrows"><button class="icon-btn" type="button" data-a="g-prev" aria-label="${L('Předchozí fotografie', 'Previous photo')}">${icon('arrow')}</button><button class="icon-btn" type="button" data-a="g-next" aria-label="${L('Další fotografie', 'Next photo')}">${icon('arrow')}</button></div></div>
+        <div class="gallery-thumbs" aria-label="${L('Náhledy fotografií', 'Photo thumbnails')}">${photos.map((item, index) => `<button class="gallery-thumb ${index === gIdx ? 'on' : ''}" type="button" data-a="g-select" data-v="${index}" aria-label="${esc(item.label)}" aria-pressed="${index === gIdx}"><img src="${esc(item.src)}" data-fallback="${esc(item.fallback)}" data-gallery-thumb="${item.number}" alt=""><span>${item.number}</span></button>`).join('')}</div>
+        <p class="fine">${L('Galerie má 12 míst pro každý vůz. Vlastní fotografie nahrajte do uvedených složek; prázdné místo se zobrazí jako výzva k nahrání.', 'Each vehicle has 12 gallery slots. Upload your photos to the listed folders; an empty slot is shown as an upload prompt.')}</p>
         <button class="btn btn-solid wide" type="button" data-a="pick-car" data-v="${gCar}">${L('Vybrat', 'Choose')} ${c.label} ${icon('arrow')}</button></div>`;
       const p = $('[data-a="g-prev"] .icon'); if (p) p.style.transform = 'rotate(180deg)';
     }
@@ -2768,7 +2804,9 @@
         }
         case 'fleet-filter': fleetFilter = v; renderFleet(); anim(app); break;
         case 'gallery': gallery(v); break;
-        case 'g-next': case 'g-prev': gIdx = gIdx ? 0 : 1; renderGallery(); break;
+        case 'g-next': gIdx = (gIdx + 1) % 12; renderGallery(); break;
+        case 'g-prev': gIdx = (gIdx + 11) % 12; renderGallery(); break;
+        case 'g-select': gIdx = Math.max(0, Math.min(11, Number(v) || 0)); renderGallery(); break;
         case 'pick-car': if (FLEET[v]) { S.car = v; fitVehicle(); if (modal.open) modal.close(); if (path === '/') { syncHome(); $('.booking')?.scrollIntoView({ block: 'start' }); } else location.hash = '/'; toast(`${FLEET[S.car].label} · ${money(FLEET[S.car].base)} ${L('letiště – Praha', 'airport – Prague')}`); } break;
         case 'trip-filter': tripFilter = v; renderTrips(); anim(app); break;
         case 'again': again(v); break;
@@ -2950,8 +2988,23 @@
     document.addEventListener('error', e => {
       const img = e.target;
       if (img instanceof HTMLImageElement && !img.dataset.failed) {
+        const fallback = img.dataset.fallback;
+        if (fallback && img.dataset.fallbackUsed !== '1') {
+          img.dataset.fallbackUsed = '1';
+          img.src = fallback;
+          return;
+        }
         img.dataset.failed = '1';
-        img.style.opacity = '0';
+        if (img.dataset.galleryMain) {
+          const photo = galleryPhotos(gCar)[Number(img.dataset.galleryMain) - 1];
+          img.parentElement.innerHTML = galleryEmpty(photo);
+        } else if (img.dataset.galleryThumb) {
+          const button = img.closest('.gallery-thumb');
+          if (button) {
+            button.classList.add('missing');
+            button.innerHTML = `${icon('car')}<span>${img.dataset.galleryThumb}</span>`;
+          }
+        } else img.style.opacity = '0';
       }
     }, true);
     document.addEventListener('pointerdown', e => {

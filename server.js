@@ -172,11 +172,16 @@ app.get(PRIVATE_DATA_PATH, (req, res) => {
 app.get(['/inter.woff2', '/instrument-serif-italic.woff2'], (req, res) => {
   res.sendFile(path.join(__dirname, path.basename(req.path)));
 });
+// Explicitly expose only image assets. Other project files remain private.
+app.use('/images', (req, res, next) => {
+  if (!/\.(?:avif|jpe?g|png|webp)$/i.test(req.path)) return res.status(404).end();
+  next();
+}, express.static(path.join(__dirname, 'images'), { dotfiles: 'deny', fallthrough: true, maxAge: '1d', immutable: false }));
 
-// ============ Тарифи Wayro ============
+// Airport prices aligned with book.letiste-praha.taxi; long-distance rates stay per km.
 const FLEET_TARIFFS = {
-  sedan:   { base: 850,  rate: 34, hour: 690,  city: 390 },
-  minibus: { base: 1250, rate: 43, hour: 890,  city: 590 },
+  sedan:   { base: 690,  rate: 34, hour: 690,  city: 390 },
+  minibus: { base: 990,  rate: 43, hour: 990,  city: 590 },
   mercE:   { base: 1290, rate: 55, hour: 1190, city: 790 },
   mercV:   { base: 1790, rate: 65, hour: 1490, city: 990 }
 };
@@ -412,7 +417,7 @@ const isPragueCity = p => safePoint(p) && !isAirport(p) && nearKm(p, PLACES[1]) 
 // Minivan má дегресивну ставку: чим більше км, тим нижча ціна за км.
 function minibusMetered(km) {
   if (km <= 50) return Math.round(km * 54 / 10) * 10;
-  if (km <= 100) return Math.round(km * 49 / 10) * 10;
+  if (km <= 100) return Math.round(km * 50 / 10) * 10;
   return Math.round(km * 43 / 10) * 10;
 }
 
