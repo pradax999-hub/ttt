@@ -412,6 +412,10 @@ async function resolvePoint(input) {
 const nearKm = (a, b) => Math.hypot((a.lat - b.lat) * 111.32, (a.lng - b.lng) * 111.32 * Math.cos(a.lat * Math.PI / 180));
 const isAirport = p => safePoint(p) && nearKm(p, PLACES[0]) < 1.8;
 const isPragueCity = p => safePoint(p) && !isAirport(p) && nearKm(p, PLACES[1]) < 6;
+const CLARION_CONGRESS = { lat: 50.1094392, lng: 14.5011389 };
+const isClarionCongress = p => safePoint(p)
+  && /clarion.*congress|congress.*clarion/i.test(String(p.label || ''))
+  && nearKm(p, CLARION_CONGRESS) < 1;
 
 // Ціна для одного класу авто
 // Minivan má дегресивну ставку: чим більше км, тим нижча ціна за км.
@@ -651,17 +655,27 @@ app.post('/api/quote', async (req, res) => {
       min = legs.reduce((sum, leg) => sum + leg.min, 0);
     }
 
+    const clarionAirport = booking.mode !== 'hourly' && !booking.stopover
+      && ((isAirport(from) && isClarionCongress(to)) || (isClarionCongress(from) && isAirport(to)));
     const prices = {};
     for (const key of Object.keys(FLEET_TARIFFS)) {
-      const p = priceForCar(key, { mode: booking.mode, hours: booking.hours, fixedAirport, km });
-      prices[key] = { ...applyExtras(p.base, booking), kind: p.kind };
+      const clarionFare = clarionAirport ? { sedan: 1170, minibus: 1514 }[key] : null;
+      const p = clarionFare
+        ? { base: clarionFare, kind: 'fixed' }
+        : priceForCar(key, { mode: booking.mode, hours: booking.hours, fixedAirport, km });
+      let price = applyExtras(p.base, booking);
+      if (clarionAirport && key === 'sedan' && booking.roundtrip) {
+        const roundtrip = applyExtras(2253, { ...booking, roundtrip: false });
+        price = { ...roundtrip, base: p.base, subtotal: p.base * 2, discount: p.base * 2 - roundtrip.total };
+      }
+      prices[key] = { ...price, kind: p.kind };
     }
 
     const quoteId = newToken();
     const quote = {
       ok: true,
       quoteId,
-      kind: booking.mode === 'hourly' ? 'hourly' : fixedAirport ? 'fixed' : 'metered',
+      kind: booking.mode === 'hourly' ? 'hourly' : fixedAirport || clarionAirport ? 'fixed' : 'metered',
       from, to, stopover: via,
       km: km ? Math.round(km * 10) / 10 : null,
       min: min ? Math.max(1, Math.round(min)) : null,
