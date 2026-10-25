@@ -59,6 +59,7 @@ app.use((req, res, next) => {
 
 // ============ Email Transporter ============
 let transporter = null;
+let emailVerified = null; // null = not checked yet, false = SMTP login rejected
 if (configured(process.env.EMAIL_USER) && configured(process.env.EMAIL_PASS)) {
   transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST || 'smtp.gmail.com',
@@ -73,6 +74,10 @@ if (configured(process.env.EMAIL_USER) && configured(process.env.EMAIL_PASS)) {
     }
   });
   console.log('✓ Email configured:', process.env.EMAIL_USER);
+  // Filled-in credentials are not proof they work: check the SMTP login once at startup.
+  transporter.verify()
+    .then(() => { emailVerified = true; console.log('✓ SMTP login verified'); })
+    .catch(error => { emailVerified = false; console.warn('⚠ SMTP login failed, booking e-mails will not be delivered:', error.message.split('\n')[0]); });
 } else {
   console.log('⚠ Email not configured – set EMAIL_USER and EMAIL_PASS in .env');
 }
@@ -177,7 +182,8 @@ app.get('/api/webhook/ping', (req, res) => res.json({
   ok: true,
   stripe: Boolean(stripe),
   webhookSecretSet: Boolean(process.env.STRIPE_WEBHOOK_SECRET && !process.env.STRIPE_WEBHOOK_SECRET.includes('placeholder')),
-  emailConfigured: Boolean(transporter)
+  emailConfigured: Boolean(transporter),
+  emailVerified
 }));
 
 // JSON body parser must come AFTER the raw Stripe webhook route.
@@ -858,10 +864,10 @@ app.post('/api/checkout', async (req, res) => {
     // Відправка email підтвердження
     if (order.email) {
       try {
-        const result = await sendEmail(order.email, `Wayro / ${orderId}`, bookingConfirmationTemplate(order));
+        const result = await sendEmail(order.email, `Transfer by Van / ${orderId}`, bookingConfirmationTemplate(order));
         order.emailStatus = result.status;
         if (configured(process.env.DISPATCH_EMAIL)) {
-          await sendEmail(process.env.DISPATCH_EMAIL, `Wayro / new request ${orderId}`, bookingConfirmationTemplate(order));
+          await sendEmail(process.env.DISPATCH_EMAIL, `Transfer by Van / new request ${orderId}`, bookingConfirmationTemplate(order));
         }
       } catch (e) {
         if (order.emailStatus !== 'accepted') order.emailStatus = 'failed';
@@ -1162,6 +1168,7 @@ app.get('/api/config', (req, res) => {
     supportEmail: process.env.SUPPORT_EMAIL || 'cztransfertaxi@gmail.com',
     flightProvider: process.env.FLIGHT_PROVIDER || null,
     emailConfigured: Boolean(transporter),
+    emailVerified,
     stripe: Boolean(stripe),
     placesConfigured: configured(process.env.GEOAPIFY_API_KEY),
     placesProvider: configured(process.env.GEOAPIFY_API_KEY) ? 'geoapify' : null,
@@ -1227,7 +1234,7 @@ app.post('/api/test-email', requireOperator, async (req, res) => {
   if (!to) return res.status(400).json({ error: 'Email required' });
   
   try {
-    const result = await sendEmail(to, 'Wayro Test Email', '<h1>✅ Email works!</h1><p>Your Wayro backend is configured correctly.</p>');
+    const result = await sendEmail(to, 'Transfer by Van Test Email', '<h1>✅ Email works!</h1><p>Your Transfer by Van backend is configured correctly.</p>');
     res.status(result.sent ? 200 : 503).json({ success: !!result.sent, messageId: result.messageId || null, status: result.status });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -1241,7 +1248,7 @@ app.use((error, req, res, next) => {
 });
 app.listen(PORT, () => {
   console.log('\n==========================================');
-  console.log(`🚖 Wayro Backend running on http://localhost:${PORT}`);
+  console.log(`🚖 Transfer by Van backend running on http://localhost:${PORT}`);
   console.log(`Gateway: ${stripe ? 'Stripe configured; verify in test mode first' : 'Online payment disabled: no Stripe key'}`);
   console.log(`📧 Email: ${transporter ? 'CONFIGURED' : 'NOT CONFIGURED (set EMAIL_USER/PASS)'}`);
   console.log('==========================================\n');

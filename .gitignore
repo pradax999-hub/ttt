@@ -32,3 +32,6 @@ data.json
 data.json.tmp
 /data/bookings.json
 /data/*.bak
+
+# Local browser-test output
+.playwright-mcp/
