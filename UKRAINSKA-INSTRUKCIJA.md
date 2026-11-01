@@ -1,4 +1,4 @@
-# Wayro: архів інструкції
+# Transfer by Van: архів інструкції
 
 Актуальні кроки та обмеження наведені на початку `README.md`.
 Наведені нижче старі твердження про повну готовність не були перевірені тестами.
@@ -23,7 +23,7 @@
 
 ### 2. Встановіть залежності
 ```bash
-cd wayro-backend
+cd transferbyvan-backend
 npm install
 ```
 
@@ -72,7 +72,7 @@ http://localhost:3000
 ```env
 EMAIL_USER=yourname@gmail.com
 EMAIL_PASS=abcd efgh ijkl mnop
-EMAIL_FROM="Wayro Transfer <noreply@wayro.cz>"
+EMAIL_FROM="Transfer by Van Transfer <noreply@transferbyvan.cz>"
 ```
 
 ### Крок 4: Перевірте
@@ -159,24 +159,24 @@ sudo npm install -g pm2
 
 # Клонуйте репо
 git clone <your-repo>
-cd wayro-backend
+cd transferbyvan-backend
 npm install --production
 
 # Запустіть
-pm2 start server.js --name wayro
+pm2 start server.js --name transferbyvan
 pm2 save
 pm2 startup
 
 # Налаштуйте Nginx (опціонально)
 sudo apt install nginx
-sudo nano /etc/nginx/sites-available/wayro
+sudo nano /etc/nginx/sites-available/transferbyvan
 ```
 
 Nginx конфіг:
 ```nginx
 server {
     listen 80;
-    server_name wayro.cz;
+    server_name transferbyvan.cz;
 
     location / {
         proxy_pass http://localhost:3000;
@@ -297,4 +297,4 @@ Content-Type: application/json
 2. Відкрийте консоль браузера (F12)
 3. Переконайтесь що всі змінні в `.env` заповнені
 
-Успіхів з Wayro! 🚖
+Успіхів з Transfer by Van! 🚖

@@ -723,7 +723,7 @@
     .d-eyebrow { font-size: 9px; letter-spacing: .17em; text-transform: uppercase; color: #a89263; margin-bottom: 12px; }
     .d-title { font-size: 26px; font-weight: 500; line-height: 1.2; letter-spacing: -.045em; padding-right: 28px; }
     .d-desc { margin-top: 11px; color: #8f8878; font-size: 12px; line-height: 1.8; }
-    .checkout { display: grid; grid-template-columns: 1fr 244px; gap: 28px; margin-top: 24px; align-items: start; }
+    .checkout { display: grid; grid-template-columns: 1fr 280px; gap: 28px; margin-top: 24px; align-items: start; }
     .co-main { min-width: 0; }
     .summary { border-left: 1px solid #302b1c; padding-left: 22px; position: sticky; top: 0; }
     .sum-h { color: #a89263; font-size: 10px; text-transform: uppercase; letter-spacing: .14em; margin-bottom: 17px; }
@@ -995,12 +995,47 @@
       *, *::before, *::after { transition: none !important; animation: none !important; }
       .appear, .hero-photo, h1 em { opacity: 1; transform: none; filter: none; }
     }
+
+    .tour-photo { margin: -4px -4px 16px; border-radius: 10px; overflow: hidden; aspect-ratio: 16 / 9; background: var(--panel-3); }
+    .tour-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s var(--ease); }
+    .tour-card:hover .tour-photo img { transform: scale(1.04); }
+    .tour-stop-row { grid-template-columns: minmax(0,1fr) 112px auto; }
+    .stop-time { min-height: 44px; }
+    .stepper { display: flex; gap: 6px; margin: 18px 0 4px; padding: 0; list-style: none; counter-reset: st; }
+    .stepper li { flex: 1; display: flex; align-items: center; gap: 8px; padding: 9px 11px; border: 1px solid var(--line); border-radius: 10px; color: var(--ink-faint); font-size: 12px; background: var(--panel-3); min-width: 0; }
+    .stepper li b { display: inline-grid; place-items: center; flex: none; width: 21px; height: 21px; border-radius: 50%; border: 1px solid var(--line); font-size: 11px; font-weight: 600; }
+    .stepper li.now { color: var(--text); border-color: var(--accent); }
+    .stepper li.now b { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+    .stepper li.done b { background: color-mix(in srgb, var(--accent) 25%, transparent); border-color: var(--accent); color: var(--accent); }
+    .stepper li span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    @media (max-width: 620px) { .stepper li span { display: none; } .stepper li.now span { display: inline; } }
+    .fleet-pick { display: grid; gap: 14px; margin-bottom: 20px; }
+    .fleet-opt { position: relative; display: grid; grid-template-columns: 140px 1fr auto; gap: 16px; align-items: center; padding: 10px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel-3); cursor: pointer; }
+    .fleet-opt:has(input:checked) { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 9%, var(--panel-3)); }
+    .fleet-opt input { position: absolute; opacity: 0; pointer-events: none; }
+    .fleet-opt img { width: 140px; height: 92px; object-fit: cover; border-radius: 8px; background: var(--panel); }
+    .fleet-opt h4 { font-size: 15px; font-weight: 500; letter-spacing: -.02em; }
+    .fleet-opt p { color: var(--ink-soft); font-size: 11.5px; margin-top: 4px; line-height: 1.6; }
+    .fleet-opt .pick-price { font-size: 16px; color: var(--text); white-space: nowrap; }
+    @media (max-width: 620px) { .fleet-opt { grid-template-columns: 96px 1fr; } .fleet-opt img { width: 96px; height: 72px; } .fleet-opt .pick-price { grid-column: 1 / -1; } }
+    .route-map { height: 220px; border-radius: 10px; overflow: hidden; margin: 14px 0; border: 1px solid var(--line); background: #0d0c08; z-index: 0; }
+    .route-map.big { height: 340px; }
+    .route-map-empty { color: var(--ink-soft); font-size: 12px; padding: 14px 0; }
+    .pin-dot { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-size: 11px; font-weight: 700; border: 2px solid #fff; box-shadow: 0 1px 6px rgba(0,0,0,.45); }
+    .pay-qr { display: grid; justify-items: center; gap: 10px; padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel-3); text-align: center; }
+    .pay-qr .qr-box { background: #fff; padding: 12px; border-radius: 10px; line-height: 0; }
+    .pay-qr .qr-box svg { width: 210px; height: 210px; }
+    .pay-qr dl { display: grid; gap: 4px; font-size: 12px; text-align: left; }
+    .pay-qr dt { color: var(--ink-faint); } .pay-qr dd { margin: 0 0 6px; color: var(--text); word-break: break-all; }
+    .wallets { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+    .wallets i { font-style: normal; font-size: 10.5px; padding: 2px 8px; border: 1px solid var(--line); border-radius: 20px; color: var(--ink-soft); }
   </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900&family=Instrument+Serif:ital@0;1&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
 <body data-theme-init>
@@ -1119,7 +1154,7 @@
       flightEndpoint: '/api/flight',
       configEndpoint: '/api/config',
       trackPollMs: 5000,
-      paymentHosts: ['checkout.stripe.com', 'checkout.stripe.dev']
+      paymentHosts: ['checkout.stripe.com', 'checkout.stripe.dev'], paypalPrefix: 'https://www.paypal.com/paypalme/'
     });
     const SITE = Object.freeze({ faq: 'https://www.phcars.cz/faq/', app: 'https://letiste-praha.taxi/aplikace/', admin: 'https://book.letiste-praha.taxi/bookings', home: 'https://www.phcars.cz/' });
     const PRIVATE_DATA_PATH = '/wry-ops-8f3c9a71d6e24b50';
@@ -1132,7 +1167,7 @@
     const esc = v => { const n = document.createElement('span'); n.textContent = String(v ?? ''); return n.innerHTML.replaceAll('"', '&#34;').replaceAll("'", '&#39;'); };
     const icon = (n, c = '') => `<svg class="icon ${c}" aria-hidden="true"><use href="#i-${n}"/></svg>`;
     const uid = () => globalThis.crypto?.randomUUID ? crypto.randomUUID() : `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 10)}`;
-    const KEY = 'wayro.app.v2';
+    const KEY = 'tbv.app.v2';
     const TZ = 'Europe/Prague';
     const dstr = d => { const p = new Intl.DateTimeFormat('en-CA', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(d); const g = k => p.find(x => x.type === k).value; return `${g('year')}-${g('month')}-${g('day')}`; };
     const plusDays = n => { const d = new Date(`${dstr(new Date())}T12:00:00+01:00`); d.setUTCDate(d.getUTCDate() + n); return dstr(d); };
@@ -1141,10 +1176,10 @@
 
     /* Airport prices match book.letiste-praha.taxi; Sedan can be booked as 1–12 cars. */
     const FLEET = {
-      sedan:   { label: 'Sedan',       base: 690,  pax: 4, bags: 3, seats: 1, rate: 34, city: 390, hour: 690,  ico: 'car',
+      sedan:   { label: 'Sedan',       base: 690,  pax: 4, bags: 3, seats: 3, rate: 34, city: 390, hour: 690,  ico: 'car',
                  model: { cs: 'Škoda Superb nebo obdobný vůz', en: 'Škoda Superb or similar' },
                  img: 'https://images.pexels.com/photos/15194845/pexels-photo-15194845.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200', inside: null },
-      minibus: { label: 'Minibus',     base: 990, pax: 7, bags: 7, seats: 1, rate: 43, city: 590, hour: 990,  ico: 'van',
+      minibus: { label: 'Minibus',     base: 990, pax: 7, bags: 7, seats: 3, rate: 43, city: 590, hour: 990,  ico: 'van',
                  model: { cs: 'Sedmimístný minivan / Mercedes-Benz V-Class', en: 'Seven-seat minivan / Mercedes-Benz V-Class' },
                  img: 'https://images.pexels.com/photos/36377060/pexels-photo-36377060.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200',
                  inside: 'https://images.pexels.com/photos/17455632/pexels-photo-17455632.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200' },
@@ -1152,16 +1187,19 @@
                  model: { cs: 'Mercedes-Benz třídy E', en: 'Mercedes-Benz E-Class' },
                  img: 'https://images.pexels.com/photos/19758544/pexels-photo-19758544.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200',
                  inside: 'https://images.pexels.com/photos/11877387/pexels-photo-11877387.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200' },
-      mercV:   { label: 'Mercedes V',  base: 1790, pax: 7, bags: 7, seats: 1, rate: 65, city: 990, hour: 1490, ico: 'van',
+      mercV:   { label: 'Mercedes V',  base: 1790, pax: 7, bags: 7, seats: 3, rate: 65, city: 990, hour: 1490, ico: 'van',
                  model: { cs: 'Mercedes-Benz třídy V', en: 'Mercedes-Benz V-Class' },
                  img: 'https://images.pexels.com/photos/17455633/pexels-photo-17455633.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200',
                  inside: 'https://images.pexels.com/photos/17455632/pexels-photo-17455632.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200' }
     };
     const TOURS = [
-      { id: 'karlovy-vary', to: 'Karlovy Vary', name: { cs: 'Karlovy Vary', en: 'Karlovy Vary' }, title: { cs: 'Karlovy Vary: kolonády a lázeňské město', en: 'Karlovy Vary: colonnades and spa town' }, detail: { cs: 'Celodenní soukromý výlet z Prahy s volným časem v centru Karlových Varů.', en: 'A private day trip from Prague with free time in central Karlovy Vary.' }, duration: 10 },
-      { id: 'dresden', to: 'Drážďany / Dresden', name: { cs: 'Drážďany', en: 'Dresden' }, title: { cs: 'Drážďany: historické centrum', en: 'Dresden: historic city centre' }, detail: { cs: 'Soukromá zpáteční cesta do Saska a čas na prohlídku města.', en: 'A private round trip to Saxony with time to explore the city.' }, duration: 10 },
-      { id: 'cesky-krumlov', to: 'Český Krumlov', name: { cs: 'Český Krumlov', en: 'Český Krumlov' }, title: { cs: 'Český Krumlov: historické centrum', en: 'Český Krumlov: historic town' }, detail: { cs: 'Výlet do jižních Čech s volným časem v historickém centru.', en: 'A trip to South Bohemia with free time in the historic centre.' }, duration: 12 },
-      { id: 'spindleruv-mlyn', to: 'Špindlerův Mlýn', name: { cs: 'Špindlerův Mlýn', en: 'Špindlerův Mlýn' }, title: { cs: 'Krkonoše: Špindlerův Mlýn', en: 'Krkonoše: Špindlerův Mlýn' }, detail: { cs: 'Horský výlet do Krkonoš s časem na vlastní program.', en: 'A mountain trip to the Krkonoše with time to explore at your own pace.' }, duration: 12 }
+      { id: 'karlovy-vary', to: 'Karlovy Vary', img: 'images/tours/karlovy-vary.jpg', name: { cs: 'Karlovy Vary', en: 'Karlovy Vary' }, title: { cs: 'Karlovy Vary: kolonády a lázeňské město', en: 'Karlovy Vary: colonnades and spa town' }, detail: { cs: 'Celodenní soukromý výlet z Prahy s volným časem v centru Karlových Varů.', en: 'A private day trip from Prague with free time in central Karlovy Vary.' }, duration: 10 },
+      { id: 'dresden', to: 'Drážďany / Dresden', img: 'images/tours/dresden.jpg', name: { cs: 'Drážďany', en: 'Dresden' }, title: { cs: 'Drážďany: historické centrum', en: 'Dresden: historic city centre' }, detail: { cs: 'Soukromá zpáteční cesta do Saska a čas na prohlídku města.', en: 'A private round trip to Saxony with time to explore the city.' }, duration: 10 },
+      { id: 'cesky-krumlov', to: 'Český Krumlov', img: 'images/tours/cesky-krumlov.jpg', name: { cs: 'Český Krumlov', en: 'Český Krumlov' }, title: { cs: 'Český Krumlov: historické centrum', en: 'Český Krumlov: historic town' }, detail: { cs: 'Výlet do jižních Čech s volným časem v historickém centru.', en: 'A trip to South Bohemia with free time in the historic centre.' }, duration: 12 },
+      { id: 'spindleruv-mlyn', to: 'Špindlerův Mlýn', img: 'images/tours/spindleruv-mlyn.jpg', name: { cs: 'Špindlerův Mlýn', en: 'Špindlerův Mlýn' }, title: { cs: 'Krkonoše: Špindlerův Mlýn', en: 'Krkonoše: Špindlerův Mlýn' }, detail: { cs: 'Horský výlet do Krkonoš s časem na vlastní program.', en: 'A mountain trip to the Krkonoše with time to explore at your own pace.' }, duration: 12 },
+      { id: 'berlin', img: 'images/tours/berlin.jpg', to: 'Berlín / Berlin', name: { cs: 'Berlín', en: 'Berlin' }, title: { cs: 'Berlín: Museumsinsel a historické centrum', en: 'Berlin: Museum Island and the historic centre' }, detail: { cs: 'Dlouhý celodenní výlet do německé metropole, Braniborská brána, Museumsinsel a čas na vlastní program.', en: 'A long full-day trip to the German capital: Brandenburg Gate, Museum Island and time for your own plans.' }, duration: 13 },
+      { id: 'vienna', img: 'images/tours/vienna.jpg', to: 'Vídeň / Vienna', name: { cs: 'Vídeň', en: 'Vienna' }, title: { cs: 'Vídeň: zámek Schönbrunn a centrum', en: 'Vienna: Schönbrunn Palace and the city centre' }, detail: { cs: 'Soukromý výlet do Vídně se zastávkou u zámku Schönbrunn a volným časem v centru.', en: 'A private trip to Vienna with a stop at Schönbrunn Palace and free time in the centre.' }, duration: 13 },
+      { id: 'munich', img: 'images/tours/munich.jpg', to: 'Mnichov / Munich', name: { cs: 'Mnichov', en: 'Munich' }, title: { cs: 'Mnichov: Marienplatz a Frauenkirche', en: 'Munich: Marienplatz and the Frauenkirche' }, detail: { cs: 'Celodenní výlet do Bavorska, Marienplatz, Frauenkirche a bavorská kuchyně.', en: 'A full-day trip to Bavaria: Marienplatz, the Frauenkirche and Bavarian cuisine.' }, duration: 13 }
     ];
     const GALLERY_LABELS = {
       cs: ['Přední pohled','Boční pohled','Zadní pohled','Přední část interiéru','Zadní sedadla','Sedadla a prostor','Palubní deska','Zavazadlový prostor','Boční dveře','Dětská autosedačka','Detail vozu','Vůz večer'],
@@ -1226,7 +1264,7 @@
         pax: n => n === 1 ? '1 osoba' : n < 5 ? `${n} osoby` : `${n} osob`,
         hrs: n => n === 1 ? '1 hodina' : n < 5 ? `${n} hodiny` : `${n} hodin`,
         stages: ['Odesláno – zpracování', 'Potvrzeno dispečerem', 'Řidič přidělen', 'Řidič na cestě', 'Řidič na místě', 'Jízda probíhá', 'Dokončeno'],
-        pay: { cash: 'Hotově u řidiče', card: 'Kartou u řidiče', online: 'Online kartou přes Stripe', cashS: 'Zaplatíte po jízdě, doklad od řidiče.', cardS: 'Terminál ve voze, doklad od řidiče.', onlineS: 'Bezpečná platba předem na stránce Stripe.' },
+        pay: { cash: 'Hotově u řidiče', card: 'Kartou u řidiče', online: 'Online kartou přes Stripe', paypal: 'PayPal', qr: 'QR platba (bankovní převod)', cashS: 'Zaplatíte po jízdě, doklad od řidiče.', cardS: 'Terminál ve voze, doklad od řidiče.', onlineS: 'Bezpečná platba předem na stránce Stripe.' },
         back: 'Zpět na hlavní stranu', more: 'Více'
       },
       en: {
@@ -1238,7 +1276,7 @@
         pax: n => n === 1 ? '1 person' : `${n} people`,
         hrs: n => n === 1 ? '1 hour' : `${n} hours`,
         stages: ['Sent – processing', 'Confirmed by dispatcher', 'Driver assigned', 'Driver on the way', 'Driver at pickup', 'Ride in progress', 'Completed'],
-        pay: { cash: 'Cash to the driver', card: 'Card to the driver', online: 'Online card via Stripe', cashS: 'Pay after the ride, receipt from the driver.', cardS: 'Terminal in the car, receipt from the driver.', onlineS: 'Secure advance payment on Stripe.' },
+        pay: { cash: 'Cash to the driver', card: 'Card to the driver', online: 'Online card via Stripe', paypal: 'PayPal', qr: 'QR payment (bank transfer)', cashS: 'Pay after the ride, receipt from the driver.', cardS: 'Terminal in the car, receipt from the driver.', onlineS: 'Secure advance payment on Stripe.' },
         back: 'Back to home', more: 'More'
       }
     };
@@ -1257,7 +1295,7 @@
 
     let store = {};
     let storageOk = true;
-    try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch { storageOk = false; }
+    try { store = JSON.parse(localStorage.getItem(KEY) || localStorage.getItem('wayro.app.v2') || '{}') || {}; } catch { storageOk = false; }
     const okOrder = o => o && typeof o.id === 'string' && o.id.length < 80 && typeof o.from === 'string' && typeof o.to === 'string' && Object.hasOwn(FLEET, o.car) && Number.isFinite(o.total) && Number.isInteger(o.stage) && o.stage >= 0 && o.stage <= 6 && typeof o.date === 'string' && typeof o.time === 'string' && o.ext && typeof o.ext === 'object';
     let orders = Array.isArray(store.orders) ? store.orders.filter(okOrder) : [];
     let reviews = Array.isArray(store.reviews) ? store.reviews.filter(r => r && typeof r.text === 'string' && typeof r.orderId === 'string' && Number.isInteger(r.rating) && r.rating > 0 && r.rating < 6) : [];
@@ -1311,7 +1349,7 @@
       return 12742 * Math.asin(Math.sqrt(s));
     };
     const fmtKm = v => `${v.toFixed(1).replace('.', lang === 'cs' ? ',' : '.')} km`;
-    const quoteKey = b => JSON.stringify([b.mode, b.from, b.to, b.hours, b.car, !!b.roundtrip, b.promo || '', b.stopover || '', b.tourId || '', ...['from','to','stopover'].map(k => { const p = selectedPoint(b, k); return p ? [p.id, p.label, p.address, p.full, p.lat, p.lng] : null; }), (b.tourStops || []).map(stop => stop?.geo && stop.geo.label === stop.label ? [stop.geo.id, stop.label, stop.geo.address, stop.geo.full, stop.geo.lat, stop.geo.lng] : [stop?.label || '', null])]);
+    const quoteKey = b => JSON.stringify([b.mode, b.from, b.to, b.hours, !!b.roundtrip, b.promo || '', b.stopover || '', b.tourId || '', ...['from','to','stopover'].map(k => { const p = selectedPoint(b, k); return p ? [p.id, p.label, p.address, p.full, p.lat, p.lng] : null; }), (b.tourStops || []).map(stop => stop?.geo && stop.geo.label === stop.label ? [stop.geo.id, stop.label, stop.geo.address, stop.geo.full, stop.geo.lat, stop.geo.lng] : [stop?.label || '', null])]);
     let Q = { key: '', kind: '', km: null, min: null, prices: null, from: null, to: null, state: 'idle' };
     let quoteTimer = null, acTimer = null, acSeq = 0, acController = null, quoteController = null;
 
@@ -1409,9 +1447,19 @@
       })));
     }
 
+
+    /* První dětská sedačka zdarma, každá další 100 Kč za jednu jízdu (u zpáteční jízdy za obě cesty). */
+    const SEAT_FEE = 100;
+    const seatFee = (b = S) => Math.max(0, (Number(b.seats) || 0) - 1) * SEAT_FEE * (b.roundtrip && b.mode !== 'hourly' ? 2 : 1);
     /* ---------- pricing ---------- */
     const place = n => PLACES.find(p => p.n.toLocaleLowerCase('cs') === String(n).trim().toLocaleLowerCase('cs'));
     function fare(b = S) {
+      const f = fareBase(b);
+      if (!Number.isFinite(f.total)) return f;
+      const seat = seatFee(b);
+      return { ...f, seat, total: f.total + seat };
+    }
+    function fareBase(b = S) {
       const car = FLEET[b.car];
       // Pokud server spočítal trasu pro tuto adresu, jeho cena má přednost.
       if (Q.state === 'ok' && Q.expiresAt > Date.now() && Q.prices && Q.prices[b.car] && Q.key === quoteKey(b)) {
@@ -1428,7 +1476,7 @@
         const A = place(b.from), B = place(b.to);
         if (A && B) {
           const gs = [A.g, B.g];
-          if (!b.stopover && gs.includes('prg') && gs.includes('prg-city')) { base = car.base; kindOf = 'fixed'; }
+          if (!b.stopover && !(b.tourStops || []).length && gs.includes('prg') && gs.includes('prg-city')) { base = car.base; kindOf = 'fixed'; }
         }
       }
       if (!Number.isFinite(base)) return { base: null, ret: null, disc: null, total: null, kind: 'unknown', km: null };
@@ -1555,11 +1603,6 @@
             <button class="chip" type="button" data-a="quick" data-v="t3">PRG → Karlovy Vary</button>
             <button class="chip" type="button" data-a="quick" data-v="t4">${lang === 'cs' ? 'Praha' : 'Prague'} → ${lang === 'cs' ? 'Vídeň' : 'Vienna'}</button>
           </div>
-          ${hourly ? '' : `<div class="flight-row">
-            <label class="field">${icon('landing')}<span class="field-caption">${L('Číslo letu', 'Flight no.')}</span><input id="flight" value="${esc(S.flight)}" placeholder="LH1400" maxlength="9" style="text-transform:uppercase" autocomplete="off"></label>
-            <button class="btn btn-ghost btn-small" type="button" data-a="check-flight" id="flight-check">${icon('satellite')} ${L('Zkontrolovat let', 'Check flight')}</button>
-            <span class="flight-res" id="flight-res"></span>
-          </div>`}
           <p class="err" id="book-err" role="alert" hidden></p>
         </form>
         <div class="booking-foot">
@@ -1572,7 +1615,7 @@
       <div class="home-rich">
         <section class="home-section appear a-soft" style="--d:.06s">
           <p class="section-kicker">${L('Proč Transfer by Van', 'Why Transfer by Van')}</p>
-          <h2 class="home-title">${L('Letištní transfer, který je jasný ještě před nástupem.', 'An airport transfer that is clear before you get in.')}</h2>
+          <h2 class="home-title">${L('Letištní transfer, který je jasný ještě před nástupem', 'An airport transfer that is clear before you get in')}</h2>
           <p class="home-lede">${L('Transfer by Van staví službu na přesné ceně, jednoduchém vyzvednutí a lidské komunikaci. Víte, kde se potkáte s řidičem, kolik zaplatíte a co je v ceně.', 'Transfer by Van is built around exact pricing, simple pickup and human communication. You know where you meet the driver, what you pay and what is included.')}</p>
           <div class="feature-grid">${featureItems.map(([ic, title, text]) => `<article class="feature">${icon(ic)}<h3>${title}</h3><p>${text}</p></article>`).join('')}</div>
         </section>
@@ -1581,7 +1624,7 @@
           <div class="home-split">
             <div>
               <p class="section-kicker">${L('Jak probíhá cesta', 'How the ride works')}</p>
-              <h2 class="home-title">${L('Od objednávky po doklad. Bez volání navíc.', 'From booking to receipt. No extra calls needed.')}</h2>
+              <h2 class="home-title">${L('Od objednávky po doklad Bez volání navíc', 'From booking to receipt No extra calls needed')}</h2>
               <p class="home-lede">${L('Každý krok má jasný stav. U letištního příletu stačí číslo letu, po přistání zapnete telefon a řidič vás kontaktuje.', 'Each step has a clear status. For airport arrivals, just enter the flight number, turn your phone on after landing and the driver contacts you.')}</p>
               <div class="info-stack" style="margin-top:24px">${process.map(([title, text], i) => `<article class="info-row"><span class="info-num">0${i + 1}</span><div><h3>${title}</h3><p>${text}</p></div></article>`).join('')}</div>
             </div>
@@ -1590,19 +1633,19 @@
         </section>
 
         <section class="home-section">
-          <h2 class="home-title">${L('Letiště Praha i dálkové trasy. Každá s vlastní cenou.', 'Prague Airport and long-distance rides, clearly separated.')}</h2>
+          <h2 class="home-title">${L('Letiště Praha i dálkové trasy Každá s vlastní cenou', 'Prague Airport and long-distance rides, clearly separated')}</h2>
           <p class="home-lede">${L('Transfer mezi letištěm Praha a centrem má pevnou cenu. U dálkových tras je cena orientační podle kilometrů a třídy vozu; konečnou cenu potvrzuje dispečer.', 'Prague Airport ↔ city centre has a fixed fare. Long-distance estimates depend on mileage and vehicle class, with the final price confirmed by dispatch.')}</p>
           <div class="route-tables">${routeDeals.map(renderRouteTable).join('')}</div>
         </section>
 
         <section class="home-section">
-          <div class="toolbar" style="margin-top:0"><div><p class="section-kicker">${L('Vozy a ceny', 'Fleet and prices')}</p><h2 class="home-title">${L('Standard nebo business. Sedan nebo minivan.', 'Standard or business. Sedan or minivan.')}</h2></div><a class="btn btn-ghost btn-small" href="#/vozy">${L('Celý vozový park', 'Full fleet')} ${icon('arrow')}</a></div>
+          <div class="toolbar" style="margin-top:0"><div><p class="section-kicker">${L('Vozy a ceny', 'Fleet and prices')}</p><h2 class="home-title">${L('Standard nebo business Sedan nebo minivan', 'Standard or business Sedan or minivan')}</h2></div><a class="btn btn-ghost btn-small" href="#/vozy">${L('Celý vozový park', 'Full fleet')} ${icon('arrow')}</a></div>
           <div class="fleet-strip">${Object.entries(FLEET).map(([k, c]) => `<article class="mini-car"><button type="button" data-a="gallery" data-v="${k}"><img src="${c.img}" alt="${esc(c.label)}" loading="lazy" decoding="async"><div class="mini-body"><h3><span>${c.label}</span><span>${money(c.base)}</span></h3><p>${c.model[lang] || c.model.cs}<br>${L('Max.', 'Max')} ${c.pax} · ${c.bags} ${L('zavazadel', 'bags')} · ${c.seats} ${L('autosedaček', 'child seats')}</p></div></button></article>`).join('')}</div>
         </section>
 
         <section class="home-section">
           <p class="section-kicker">${L('Místa setkání', 'Meeting points')}</p>
-          <h2 class="home-title">${L('Vystoupíte z letadla a víte, kam jít.', 'You leave the plane and know where to go.')}</h2>
+          <h2 class="home-title">${L('Vystoupíte z letadla a víte, kam jít', 'You leave the plane and know where to go')}</h2>
           <div class="terminal-grid">${terminalItems.map(m => `<article class="terminal">
             <div class="terminal-photo"><img src="${esc(m.img)}" alt="${esc(m.t)} — ${esc(m.s)}" loading="lazy" decoding="async"></div>
             <div class="terminal-body">
@@ -1615,7 +1658,7 @@
 
         <section class="home-section" id="kontakt">
           <p class="section-kicker">${L('Kontakt a fakturace', 'Contact and billing')}</p>
-          <h2 class="home-title">${L('Přímálinka na řidiče, žádná call centra.', 'Direct line to the driver, no call centres.')}</h2>
+          <h2 class="home-title">${L('Přímálinka na řidiče, žádná call centra', 'Direct line to the driver, no call centres')}</h2>
           <p class="home-lede">${L('Rezervaci potvrdí dispečink e-mailem. Fakturu vystavujeme jako fyzická osoba s živností silniční motorová doprava.', 'Dispatch confirms your booking by e-mail. Invoices are issued by a self-employed carrier licensed for road passenger transport.')}</p>
           <div class="contact-grid">
             <div class="contact-card highlight">
@@ -1655,7 +1698,7 @@
 
         <section class="home-section">
           <div class="home-split">
-            <div><p class="section-kicker">${L('Pro každou cestu', 'For every journey')}</p><h2 class="home-title">${L('Pohodlí podle vašich plánů.', 'Comfort that fits your plans.')}</h2></div>
+            <div><p class="section-kicker">${L('Pro každou cestu', 'For every journey')}</p><h2 class="home-title">${L('Pohodlí podle vašich plánů', 'Comfort that fits your plans')}</h2></div>
             <div class="review-grid" style="margin-top:0">
               <article class="quote"><p>${L('Po příletu zamiřte k domluvenému místu. Přesný bod setkání vyberete v rezervaci.', 'After arrival, head to the agreed meeting point. Choose it in your booking.')}</p><small>PRG · T1 / T2</small></article>
               <article class="quote"><p>${L('Cestujete s rodinou? Přidejte dětskou sedačku a kočárek před výběrem vozu.', 'Travelling with family? Add child seats and a pram before selecting a car.')}</p><small>${L('Rodinný transfer', 'Family transfer')}</small></article>
@@ -1665,7 +1708,7 @@
         </section>
 
         <section class="home-section">
-          <div class="toolbar" style="margin-top:0"><div><p class="section-kicker">${L('Rychlé odpovědi', 'Quick answers')}</p><h2 class="home-title">${L('Než kliknete na objednávku.', 'Before you click book.')}</h2></div><a class="btn btn-ghost btn-small" href="#/napoveda">${L('Všechna FAQ', 'All FAQ')} ${icon('arrow')}</a></div>
+          <div class="toolbar" style="margin-top:0"><div><p class="section-kicker">${L('Rychlé odpovědi', 'Quick answers')}</p><h2 class="home-title">${L('Než kliknete na objednávku', 'Before you click book')}</h2></div><a class="btn btn-ghost btn-small" href="#/napoveda">${L('Všechna FAQ', 'All FAQ')} ${icon('arrow')}</a></div>
           <div class="faq-preview">${FAQ.slice(0, 6).map((item, i) => `<details ${i === 0 ? 'open' : ''}><summary>${esc(item.q[lang] || item.q.cs)}</summary><p>${esc(item.a[lang] || item.a.cs)}</p></details>`).join('')}</div>
         </section>
       </div>`;
@@ -1731,7 +1774,7 @@
       syncHome();
     }
     function quotePayload() {
-      return { mode: S.mode, from: S.from, to: S.to, fromGeo: selectedPoint(S, 'from'), toGeo: selectedPoint(S, 'to'), stopover: S.stopover || '', stopoverGeo: selectedPoint(S, 'stopover'), tourStops: (S.tourStops || []).map(stop => stop?.geo && stop.geo.label === stop.label ? stop.geo : null), hours: S.hours, car: S.car, roundtrip: S.roundtrip, promo: S.promo, tourId: S.tourId, pay: S.pay };
+      return { mode: S.mode, from: S.from, to: S.to, fromGeo: selectedPoint(S, 'from'), toGeo: selectedPoint(S, 'to'), stopover: S.stopover || '', stopoverGeo: selectedPoint(S, 'stopover'), tourStops: (S.tourStops || []).map(stop => stop?.geo && stop.geo.label === stop.label ? { ...stop.geo, time: stop.time || '' } : null), hours: S.hours, car: S.car, roundtrip: S.roundtrip, promo: S.promo, tourId: S.tourId, pay: S.pay };
     }
     async function requestQuote() {
       const key = quoteKey(S);
@@ -1917,7 +1960,7 @@
         ['clock', L('Hodinová dispozice', 'Hourly hire'), L('Vůz i řidič k dispozici na hodiny – schůzky, focení, celodenní program. Minimálně 2 hodiny, cenu potvrdí dispečer.', 'Car and driver at your disposal by the hour – meetings, shoots, full-day programmes. Minimum 2 hours, price confirmed by the dispatcher.'), 'hourly'],
         ['building', L('Taxi pro firmy', 'Corporate taxi'), L('Přeprava klientů, partnerů i zaměstnanců s jednotným standardem a přehledem jízd.', 'Transport for clients, partners and staff with one standard and a clear ride overview.'), 'business']
       ];
-      app.innerHTML = head(L('Naše služby', 'Our services'), L('Odvezeme vás.<br><em>Kamkoli.</em>', 'We drive you.<br><em>Anywhere.</em>'), L('Letiště, dálkové trasy i firemní přeprava. Jedna linka, jeden standard, nonstop 24/7.', 'Airport runs, long-distance routes and corporate rides. One line, one standard, 24/7.'))
+      app.innerHTML = head(L('Naše služby', 'Our services'), L('Odvezeme vás<br><em>Kamkoli</em>', 'We drive you<br><em>Anywhere</em>'), L('Letiště, dálkové trasy i firemní přeprava. Jedna linka, jeden standard, nonstop 24/7.', 'Airport runs, long-distance routes and corporate rides. One line, one standard, 24/7.'))
         + `<div class="cards">${items.map(([ic, ttl, txt, mode]) => `<article class="card"><div class="card-icon">${icon(ic)}</div><h3>${ttl}</h3><p>${txt}</p><button class="text-link" type="button" data-a="${mode === 'business' ? 'go-business' : 'pick-mode'}" data-v="${mode}">${mode === 'business' ? L('Zobrazit', 'Open') : L('Objednat', 'Book')} →</button></article>`).join('')}</div>`
         + `<h2 class="section-h" style="margin-top:56px">${L('Jak to u nás funguje', 'How it works')}</h2><div class="steps">${[
           [L('Objednávka', 'Booking'), L('Zadáte trasu, čas a vůz. Cenu vidíte hned, bez závazku.', 'Enter route, time and vehicle. You see the price instantly, with no commitment.')],
@@ -1928,12 +1971,12 @@
         + `<div class="banner">${icon('info')}<p>${L('Ceny letiště – Praha odpovídají ceníku Transfer by Van a jsou pevné. Dálkové a hodinové kalkulace jsou orientační, finální cenu potvrzuje dispečink.', 'Airport – Prague prices follow the Transfer by Van price list and are fixed. Long-distance and hourly calculations are estimates; dispatch confirms the final price.')}</p></div></section>`;
     }
     function tourStopsMarkup() {
-      const rows = S.tourStops.map((stop, i) => `<div class="tour-stop-row"><label class="field"><span class="sr-only">${L('Místo', 'Place')} ${i + 1}</span><input class="input" id="tour-stop-${i}" data-ac="tour-stop-${i}" value="${esc(stop.label)}" placeholder="${L('Vyhledejte místo nebo zastávku', 'Search for a place or stop')}" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="ac-tour-stop-${i}" required><span class="ac" id="ac-tour-stop-${i}" role="listbox"></span></label><button type="button" class="btn btn-ghost btn-small" data-a="remove-tour-stop" data-v="${i}" aria-label="${L('Odebrat místo', 'Remove stop')}">${icon('close')}</button></div>`).join('');
-      return `<div class="tour-stops-head"><span>${L('Volitelná místa a zastávky na trase', 'Optional places and stops along the route')}</span><button class="text-link" type="button" data-a="add-tour-stop" ${S.tourStops.length >= 5 ? 'disabled' : ''}>+ ${L('Přidat místo', 'Add a place')}</button></div>${rows}`;
+      const rows = S.tourStops.map((stop, i) => `<div class="tour-stop-row"><label class="field"><span class="sr-only">${L('Místo', 'Place')} ${i + 1}</span><input class="input" id="tour-stop-${i}" data-ac="tour-stop-${i}" value="${esc(stop.label)}" placeholder="${L('Vyhledejte místo nebo zastávku', 'Search for a place or stop')}" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="ac-tour-stop-${i}" required><span class="ac" id="ac-tour-stop-${i}" role="listbox"></span></label><input class="input stop-time" type="time" data-stop-time="${i}" value="${esc(stop.time || '')}" aria-label="${L('V kolik hodin zastávka', 'Stop time')} ${i + 1}" title="${L('V kolik hodin (nepovinné)', 'What time (optional)')}"><button type="button" class="btn btn-ghost btn-small" data-a="remove-tour-stop" data-v="${i}" aria-label="${L('Odebrat místo', 'Remove stop')}">${icon('close')}</button></div>`).join('');
+      return `<div class="tour-stops-head"><span>${L('Zastávky na trase a čas (nepovinné, max. 5)', 'Stops along the route and time (optional, max 5)')}</span><button class="text-link" type="button" data-a="add-tour-stop" ${S.tourStops.length >= 5 ? 'disabled' : ''}>+ ${L('Přidat zastávku', 'Add a stop')}</button></div>${rows}`;
     }
     function renderTours() {
-      const cards = TOURS.map(tour => `<article class="card tour-card"><div class="card-icon">${icon('route')}</div><p class="section-kicker">${L('Soukromý jednodenní výlet', 'Private day trip')}</p><h3>${tour.title[lang]}</h3><div class="tour-route">Praha <span>↔</span> ${tour.name[lang]}</div><p>${tour.detail[lang]}</p><p class="tour-duration">${L('Plánovaný celodenní program', 'Full-day itinerary')} · ${tour.duration} h</p><button class="text-link" type="button" data-a="select-tour" data-v="${tour.id}">${L('Vybrat tento výlet', 'Choose this trip')} ${icon('arrow')}</button></article>`).join('');
-      app.innerHTML = head(L('Soukromé výlety', 'Private day trips'), L('Vyrazte z Prahy.<br><em>Výlet podle vás.</em>', 'Explore from Prague.<br><em>Your trip, your way.</em>'), L('Vyberte cíl a termín. Cena minivanu se vypočítá po skutečné zpáteční trase podle kilometrového ceníku; pokračujte k zabezpečené platbě kartou.', 'Choose a destination and date. The minivan fare is calculated from the actual round-trip road distance using the per-kilometre tariff; continue to secure card payment.'))
+      const cards = TOURS.map(tour => `<article class="card tour-card"><div class="tour-photo"><img src="${tour.img}" alt="${esc(tour.name[lang])}" loading="lazy" decoding="async"></div><p class="section-kicker">${L('Soukromý jednodenní výlet', 'Private day trip')}</p><h3>${tour.title[lang]}</h3><div class="tour-route">Praha <span>↔</span> ${tour.name[lang]}</div><p>${tour.detail[lang]}</p><p class="tour-duration">${L('Plánovaný celodenní program', 'Full-day itinerary')} · ${tour.duration} h</p><button class="text-link" type="button" data-a="select-tour" data-v="${tour.id}">${L('Vybrat tento výlet', 'Choose this trip')} ${icon('arrow')}</button></article>`).join('');
+      app.innerHTML = head(L('Soukromé výlety', 'Private day trips'), L('Vyrazte z Prahy<br><em>Výlet podle vás</em>', 'Explore from Prague<br><em>Your trip, your way</em>'), L('Vyberte cíl a termín. Cena minivanu se vypočítá po skutečné zpáteční trase podle kilometrového ceníku; pokračujte k zabezpečené platbě kartou.', 'Choose a destination and date. The minivan fare is calculated from the actual round-trip road distance using the per-kilometre tariff; continue to secure card payment.'))
         + `<form class="tour-booking" id="tour-form"><label class="form-field"><span>${L('Výlet', 'Tour')}</span><select class="input" name="tourId" id="tour-id" required>${TOURS.map(tour => `<option value="${tour.id}" ${S.tourId === tour.id ? 'selected' : ''}>${tour.name[lang]}</option>`).join('')}</select></label><label class="form-field"><span>${L('Datum', 'Date')}</span><input class="input" type="date" name="tourDate" min="${plusDays(1)}" value="${plusDays(1)}" required></label><label class="form-field"><span>${L('Odjezd z Prahy', 'Departure from Prague')}</span><input class="input" type="time" name="tourTime" min="06:00" max="10:00" value="08:00" required></label><label class="form-field"><span>${L('Cestující', 'Passengers')}</span><select class="input" name="tourPax">${Array.from({ length: FLEET.minibus.pax }, (_, i) => `<option value="${i + 1}" ${i === 1 ? 'selected' : ''}>${i + 1}</option>`).join('')}</select></label><div class="tour-stops">${tourStopsMarkup()}</div><button class="btn btn-solid tour-submit" type="submit">${L('Vypočítat cenu a pokračovat', 'Calculate fare and continue')} ${icon('arrow')}</button><p class="tour-message" id="tour-message" role="status" aria-live="polite"></p></form>`
         + `<div class="cards">${cards}</div><div class="banner">${icon('info')}<p>${L('Platba kartou proběhne přes Stripe. Rezervace a dostupnost minivanu jsou potvrzeny dispečinkem e-mailem až po kontrole; samotná platba ještě neznamená přidělení vozidla.', 'Card payments use Stripe. The dispatcher confirms the booking and minivan availability by e-mail after review; payment alone does not mean a vehicle has been assigned.')}</p></div></section>`;
     }
@@ -1980,7 +2023,7 @@
     }
     function renderFleet() {
       const items = Object.entries(FLEET).filter(([k]) => fleetFilter === 'all' || fleetFilter === k);
-      app.innerHTML = head(L('Vozový park', 'Our fleet'), L('Vyberte si.<br>Cena je <em>za vůz.</em>', 'Pick your car.<br>Price is <em>per vehicle.</em>'), L('Ceny platí pro trasu letiště Praha – centrum Prahy. Cena je za vozidlo, ne za osobu.', 'Prices apply to the Prague Airport – Prague centre route. The price is per vehicle, not per person.'))
+      app.innerHTML = head(L('Vozový park', 'Our fleet'), L('Vyberte si<br>Cena je <em>za vůz</em>', 'Pick your car<br>Price is <em>per vehicle</em>'), L('Ceny platí pro trasu letiště Praha – centrum Prahy. Cena je za vozidlo, ne za osobu.', 'Prices apply to the Prague Airport – Prague centre route. The price is per vehicle, not per person.'))
         + `<div class="tabs">${[['all', L('Všechny vozy', 'All vehicles')], ...Object.entries(FLEET).map(([k, c]) => [k, c.label])].map(([k, n]) => `<button type="button" data-a="fleet-filter" data-v="${k}" aria-pressed="${fleetFilter === k}">${n}</button>`).join('')}</div>
         <div class="fleet-grid">${items.map(([k, c], i) => `<article class="appear a-soft" style="--d:${.06 + i * .07}s">
           <button class="car-media" type="button" data-a="gallery" data-v="${k}" aria-label="${c.label}"><img src="${c.img}" alt="${esc(c.model[lang] || c.model.cs)}" loading="lazy" decoding="async"><span class="car-tag">${c.seats ? L(`${c.seats}× autosedačka`, `${c.seats}× child seat`) : L('bez autosedačky', 'no child seat')}</span></button>
@@ -1999,7 +2042,7 @@
         <p class="fine">${L('Fotografie ilustrují třídu vozu, konkrétní model potvrzuje dispečink. Ceny dálkových a hodinových jízd v kalkulačce jsou orientační.', 'Photos illustrate the vehicle class; the exact model is confirmed by dispatch. Long-distance and hourly prices in the calculator are estimates.')}</p></section>`;
     }
     function renderAirport() {
-      app.innerHTML = head(L('Letiště Václava Havla', 'Václav Havel Airport'), L('Přistáli jste.<br>Řidič už <em>čeká.</em>', 'You landed.<br>The driver is <em>waiting.</em>'), L('Kde se potkáte s řidičem a co dělat po příletu nebo před odletem.', 'Where you meet the driver and what to do after landing or before departure.'))
+      app.innerHTML = head(L('Letiště Václava Havla', 'Václav Havel Airport'), L('Přistáli jste<br>Řidič už <em>čeká</em>', 'You landed<br>The driver is <em>waiting</em>'), L('Kde se potkáte s řidičem a co dělat po příletu nebo před odletem.', 'Where you meet the driver and what to do after landing or before departure.'))
         + `<div class="meet-grid">${Object.entries(MEETS).map(([k, m]) => `<article class="meet"><div class="car-media" style="aspect-ratio:1.9;margin-bottom:16px"><img src="${m.img}" alt="${esc(m.t)}" loading="lazy" decoding="async"></div><span class="meet-badge">${icon('sign')}${m.s}</span><h3>${m.t}</h3><p>${m.d[lang] || m.d.cs}</p><button class="text-link" type="button" data-a="pick-meet" data-v="${k}" style="font-size:12px;margin-top:12px">${L('Vyzvednout zde', 'Meet me here')} →</button></article>`).join('')}</div>
         <div class="split">
           <div><h2 class="section-h">${L('Přilétám', 'Arriving')}</h2><ul class="list">
@@ -2021,7 +2064,7 @@
         </div></section>`;
     }
     function renderBusiness() {
-      app.innerHTML = head(L('Transfer by Van pro firmy', 'Transfer by Van for business'), L('Vaši klienti.<br>Naše <em>starost.</em>', 'Your clients.<br>Our <em>care.</em>'), L('Přeprava partnerů, klientů i týmu s jedním standardem a přehledem nákladů.', 'Transport for partners, clients and your team with one standard and a clear cost overview.'))
+      app.innerHTML = head(L('Transfer by Van pro firmy', 'Transfer by Van for business'), L('Vaši klienti<br>Naše <em>starost</em>', 'Your clients<br>Our <em>care</em>'), L('Přeprava partnerů, klientů i týmu s jedním standardem a přehledem nákladů.', 'Transport for partners, clients and your team with one standard and a clear cost overview.'))
         + `<div class="split"><div><ul class="list">
           ${[L('Transfery klientů a delegací na letiště i na jednání', 'Client and delegation transfers to the airport and meetings'),
              L('Pravidelné jízdy zaměstnanců podle firemní politiky', 'Recurring staff rides following your travel policy'),
@@ -2041,7 +2084,7 @@
 
     function renderTrips() {
       const list = orders.filter(o => tripFilter === 'all' || (tripFilter === 'next' ? !o.cancelled && o.stage < 6 : o.cancelled || o.stage === 6));
-      app.innerHTML = head(L('Moje jízdy', 'My rides'), L('Vaše <em>cesty.</em>', 'Your <em>rides.</em>'), L('Přehled rezervací uložených v tomto prohlížeči.', 'Bookings stored in this browser.'))
+      app.innerHTML = head(L('Moje jízdy', 'My rides'), L('Vaše <em>cesty</em>', 'Your <em>rides</em>'), L('Přehled rezervací uložených v tomto prohlížeči.', 'Bookings stored in this browser.'))
         + `<div class="toolbar"><div class="tabs">${[['all', L('Vše', 'All')], ['next', L('Nadcházející', 'Upcoming')], ['done', L('Dokončené', 'Finished')]].map(([k, n]) => `<button type="button" data-a="trip-filter" data-v="${k}" aria-pressed="${tripFilter === k}">${n}</button>`).join('')}</div>
           ${orders.length ? `<button class="btn btn-ghost btn-small" type="button" data-a="export">${icon('download')}${L('Export CSV', 'Export CSV')}</button>` : ''}<a class="btn btn-solid btn-small" href="#/">${L('Nová jízda', 'New ride')} ${icon('plus')}</a></div>`
         + (list.length ? `<div style="margin-top:14px">${list.map(o => `<article class="trip"><div>
@@ -2057,6 +2100,23 @@
     /* ---------- Živá pozice řidiče ----------
        Souřadnice řidiče pocházejí výhradně z backendu (/api/driver/:id).
        Když server polohu neposkytne, na mapě je jen plánovaná trasa – nic si nedomýšlíme. */
+    /* Mapa trasy: skutečná trasa po silnici z posledního výpočtu (Q) nebo uložená u rezervace. */
+    function drawRouteMap(el, data = null) {
+      if (!el) return;
+      if (el._map) { try { el._map.remove(); } catch {} el._map = null; }
+      const d = data || (Q.state === 'ok' ? { path: Q.routePath, points: [draftPlaces().pickup, ...draftPlaces().stopovers, draftPlaces().destination] } : null);
+      const pts = (d?.points || []).filter(p => p && validGeo(p));
+      if (!window.L || pts.length < 2) { el.innerHTML = `<p class="route-map-empty">${L('Mapa trasy se zobrazí po výběru míst a výpočtu ceny.', 'The route map appears after you pick places and the fare is calculated.')}</p>`; el.style.height = 'auto'; el.style.border = '0'; return; }
+      el.innerHTML = ''; el.style.cssText = '';
+      const map = window.L.map(el, { scrollWheelZoom: false, attributionControl: true });
+      window.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' }).addTo(map);
+      const line = (d.path && d.path.length > 1 ? d.path : pts.map(p => [p.lat, p.lng]));
+      const poly = window.L.polyline(line, { color: '#f5c66b', weight: 5, opacity: .95 }).addTo(map);
+      pts.forEach((p, i) => window.L.marker([p.lat, p.lng], { icon: window.L.divIcon({ className: '', html: `<span class="pin-dot">${i === 0 ? 'A' : i === pts.length - 1 ? 'B' : i}</span>`, iconSize: [24, 24], iconAnchor: [12, 12] }), title: p.label }).addTo(map));
+      map.fitBounds(poly.getBounds(), { padding: [22, 22] });
+      el._map = map;
+      setTimeout(() => map.invalidateSize(), 120);
+    }
     const geoOf = name => {
       const p = place(name);
       if (p && Number.isFinite(p.lat)) return [p.lat, p.lng];
@@ -2064,18 +2124,19 @@
       return m ? [m.lat, m.lng] : null;
     };
     const carIcon = () => window.L.divIcon({ className: '', html: `<span class="pin-car">${icon('car')}</span>`, iconSize: [34, 34], iconAnchor: [17, 17] });
-    function trackingPanel() {
-      return `<div class="live">
-        <div class="live-top"><div>${icon('navigation')}<span>${L('Poloha řidiče', 'Driver location')}</span></div><span class="live-badge off" id="live-badge">${L('Čekáme na GPS', 'Waiting for GPS')}</span></div>
-        <div id="gps-empty" class="live-geo"><div class="live-radar" aria-hidden="true"></div><p id="gps-empty-text" role="status">${L('Poloha se zobrazí, až přidělený řidič zapne sdílení GPS. Žádné náhodné souřadnice.', 'The location appears when your assigned driver enables GPS sharing. No random coordinates.')}</p></div>
-        <div id="live-map" hidden aria-label="${L('Poslední aktuální GPS poloha řidiče', 'Current GPS position of the driver')}"></div>
-        <div class="live-stats" id="gps-stats" hidden>
-          <div class="live-stat"><span>GPS</span><strong id="live-accuracy">-</strong></div>
-          <div class="live-stat"><span>${L('Zdroj', 'Source')}</span><strong>${L('Telefon řidiče', 'Driver phone')}</strong></div>
-          <div class="live-stat"><span>${L('Aktualizováno', 'Updated')}</span><strong id="live-upd">-</strong></div>
-        </div>
-        <div class="live-note">${L('Zastaralá poloha se po 60 sekundách skryje. Čas příjezdu bez dopravních dat neodhadujeme.', 'A position older than 60 seconds is hidden. We do not invent arrival times.')}</div>
-      </div>`;
+    function trackingPanel(o) {
+      return `<div class="live"><div class="live-top"><div>${icon('route')}<span>${L('Mapa trasy', 'Route map')}</span></div>${Number.isFinite(o?.distanceKm) ? `<span class="live-badge">${esc(fmtKm(o.distanceKm))}${Number.isFinite(o.durationMin) ? ' · ' + o.durationMin + ' min' : ''}</span>` : ''}</div><div class="route-map big" id="order-map" aria-label="${L('Mapa trasy', 'Route map')}"></div></div>`;
+    }
+    function orderPayPanel(o) {
+      if (o.payState !== 'awaiting_payment' || !o.payment) return '';
+      if (o.payment.method === 'qr') return `<div class="pay-qr"><strong>${L('Zaplaťte QR kódem', 'Pay with the QR code')}</strong><div class="qr-box" id="pay-qr-box"></div><dl><dt>${L('Částka', 'Amount')}</dt><dd>${money(o.total)}</dd><dt>${L('Číslo účtu', 'Account')}</dt><dd>${esc(o.payment.account)}</dd><dt>IBAN</dt><dd>${esc(o.payment.iban)}</dd><dt>${L('Variabilní symbol', 'Variable symbol')}</dt><dd>${esc(o.payment.variableSymbol)}</dd></dl><small class="fine">${L('Rezervaci potvrdí dispečink po přijetí platby.', 'Dispatch confirms the booking once the payment arrives.')}</small></div>`;
+      if (o.payment.method === 'paypal' && /^https:\/\/www\.paypal\.com\//.test(o.payment.url || '')) return `<div class="pay-qr"><strong>PayPal</strong><a class="btn btn-solid" href="${esc(o.payment.url)}" target="_blank" rel="noopener">${L('Zaplatit přes PayPal', 'Pay with PayPal')} ${money(o.total)}</a><small class="fine">${L('Platbu ověřuje dispečink ručně.', 'Dispatch verifies the payment manually.')}</small></div>`;
+      return '';
+    }
+    function paintQr(o) {
+      const box = $('#pay-qr-box'); if (!box || !o?.payment?.spayd) return;
+      try { const qr = window.qrcode(0, 'M'); qr.addData(o.payment.spayd); qr.make(); box.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true }); }
+      catch { box.innerHTML = `<small>${esc(o.payment.spayd)}</small>`; }
     }
     let live = { timer: null, map: null, marker: null, circle: null, order: null, controller: null, active: true, freshness: null };
     function stopLive() {
@@ -2167,14 +2228,15 @@
           <div class="dline"><span>${L('Cena', 'Price')}</span><span>${money(o.total)}${o.est ? ` · ${L('orientační', 'estimate')}` : ''}</span></div>
           <div class="dline"><span>${L('Platba', 'Payment')}</span><span>${t('pay')[o.pay] || esc(o.pay)}<br>${o.payState === 'succeeded' ? o.testPayment ? L('Testovací platba Stripe: skutečné peníze nebyly strženy', 'Stripe test payment: no real charge was made') : L('Úhradu ověřil server', 'Payment verified by server') : o.payState === 'pay_on_arrival' ? L('Platba po jízdě', 'Pay after the ride') : o.payState === 'expired' ? L('Platba nebyla dokončena. Částka nebyla potvrzena jako uhrazená.', 'Payment was not completed. No payment has been confirmed.') : L('Čeká se na potvrzení platby od Stripe.', 'Waiting for payment confirmation from Stripe.')}</span></div>
           <div class="dline"><span>${L('Zavazadla', 'Luggage')}</span><span>${Number(e.bagsBig) || 0}× ${L('velké', 'large')} · ${Number(e.bagsSmall) || 0}× ${L('příruční', 'cabin')}${e.pram ? ` · ${L('kočárek', 'pram')}` : ''}</span></div>
-          ${e.seats ? `<div class="dline"><span>${L('Autosedačky', 'Child seats')}</span><span>${Number(e.seats)}× ${SEATS[e.seatType]?.[lang] || ''} · ${L('zdarma', 'free')}</span></div>` : ''}
+          ${e.seats ? `<div class="dline"><span>${L('Autosedačky', 'Child seats')}</span><span>${Number(e.seats)}× ${SEATS[e.seatType]?.[lang] || ''} · ${e.seats > 1 ? L('1. zdarma, další +100 Kč', '1st free, extra +100 CZK') : L('zdarma', 'free')}</span></div>` : ''}
           ${e.flight ? `<div class="dline"><span>${L('Let', 'Flight')}</span><span>${esc(e.flight)}</span></div>` : ''}
           ${meet ? `<div class="dline"><span>${L('Doplnění k vyzvednutí', 'Pickup instructions')}</span><span>${meet.t} · ${meet.s}</span></div>` : ''}
           ${e.roundtrip && locations.destination ? `<div class="dline"><span>${L('Zpáteční', 'Return')}</span><span>${esc(dtLbl(e.retDate, e.retTime))}<br>${esc(placeText(locations.destination))}<br>→ ${esc(placeText(locations.pickup))}</span></div>` : ''}
           ${e.notes ? `<div class="dline"><span>${L('Poznámka', 'Note')}</span><span>${esc(e.notes)}</span></div>` : ''}
           ${PUB.whatsapp ? `<div class="dline"><span>${L('WhatsApp 24/7', 'WhatsApp 24/7')}</span><span><a class="text-link" href="https://wa.me/${esc(String(PUB.whatsapp).replace(/\D/g, ''))}" target="_blank" rel="noopener">${esc(PUB.whatsapp)}</a></span></div>` : ''}
           <div class="dline"><span>${L('Bezplatné storno do', 'Free cancellation until')}</span><span>${dl.when.toLocaleString(lang === 'cs' ? 'cs-CZ' : 'en-GB', { timeZone: TZ, day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' })} · ${dl.hrs} h</span></div>
-          <div class="driver"><div class="avatar">${icon('user')}</div><div><strong id="driver-name">${L('Ověřujeme přidělení řidiče', 'Checking driver assignment')}</strong><p id="driver-plate">${FLEET[o.car].model[lang] || FLEET[o.car].model.cs}</p><p id="driver-live">${L('Čekáme na aktuální GPS z telefonu řidiče.', 'Waiting for current GPS from the driver phone.')}</p><div class="driver-contacts" id="driver-contacts"></div></div></div>
+          <div class="driver"><div class="avatar">${icon('car')}</div><div><strong>${FLEET[o.car].label}</strong><p>${FLEET[o.car].model[lang] || FLEET[o.car].model.cs}</p></div></div>
+          ${orderPayPanel(o)}
           <div class="ctrls"><button class="btn btn-ghost btn-small" type="button" data-a="again" data-v="${esc(id)}">${L('Objednat znovu', 'Book again')}</button>
           <button class="btn btn-ghost btn-small" type="button" data-a="voucher" data-v="${esc(id)}">${icon('ticket')}${L('Stáhnout voucher', 'Download voucher')}</button>
           ${!done && !o.cancelled && o.demo ? `<button class="btn btn-ghost btn-small" type="button" data-a="edit-order" data-v="${esc(id)}">${L('Upravit návrh', 'Edit draft')}</button><button class="btn btn-ghost btn-small" type="button" data-a="cancel" data-v="${esc(id)}">${L('Smazat návrh', 'Cancel draft')}</button>` : ''}
@@ -2183,21 +2245,22 @@
         <div class="o-map">${trackingPanel(o)}
           <ol class="timeline">${t('stages').map((s, i) => `<li class="${i < o.stage ? 'done' : i === o.stage ? 'now' : ''}"><span class="tdot">${i < o.stage ? icon('check') : i + 1}</span>${s}</li>`).join('')}</ol>
           <div class="ctrls">
-            <button class="btn btn-ghost btn-small" type="button" data-a="live-refresh" data-v="${esc(id)}">${icon('satellite')}${L('Obnovit polohu', 'Refresh position')}</button>
+            
             ${o.pay === 'online' ? `<button class="btn btn-ghost btn-small" type="button" data-a="verify-payment" data-v="${esc(id)}">${L('Ověřit platbu', 'Verify payment')}</button>` : ''}
           </div>
         </div></div></section>`;
-      startLive(o);
+      drawRouteMap($('#order-map'), { path: o.routePath, points: [locations.pickup, ...(locations.stopovers || []), ...(locations.stopover ? [locations.stopover] : []), locations.destination] });
+      paintQr(o);
     }
     function renderReviews() {
-      app.innerHTML = head(L('Hodnocení', 'Reviews'), L('Skutečné jízdy.<br>Skutečná <em>slova.</em>', 'Real rides.<br>Real <em>words.</em>'), L('Hodnocení se zobrazí po dokončení jízdy. Nevymýšlíme si zákazníky ani hvězdičky.', 'Reviews appear after a completed ride. We do not invent customers or stars.'))
+      app.innerHTML = head(L('Hodnocení', 'Reviews'), L('Skutečné jízdy<br>Skutečná <em>slova</em>', 'Real rides<br>Real <em>words</em>'), L('Hodnocení se zobrazí po dokončení jízdy. Nevymýšlíme si zákazníky ani hvězdičky.', 'Reviews appear after a completed ride. We do not invent customers or stars.'))
         + (reviews.length ? reviews.map(r => { const o = orders.find(x => x.id === r.orderId); return `<article class="review"><div class="stars" aria-label="${r.rating}/5">${Array.from({ length: r.rating }, () => icon('star')).join('')}</div><p class="review-txt">${esc(r.text)}</p><div class="review-by"><span>${esc(r.name || L('Host', 'Guest'))}</span><span>${o ? esc(`${placeName(o.from)} → ${placeName(o.to)}`) : ''}</span><span>${L('Ukázkové hodnocení · jen v tomto prohlížeči', 'Demo review · this browser only')}</span></div></article>`; }).join('')
           : `<div class="empty">${icon('msg')}<h2>${L('Zatím tu nejsou hodnocení', 'No reviews yet')}</h2><p>${L('Hodnotit může jen klient, který u nás dojel. Tady se zobrazují hodnocení z dokončených jízd tohoto prohlížeče, žádné rukou psané recenze.', 'Only clients who actually completed a ride can rate it. This page shows reviews from completed rides in this browser – never hand-written samples.')}</p><a class="btn btn-solid" href="#/jizdy">${t('nav.trips')} ${icon('arrow')}</a></div>`)
         + '</section>';
     }
     const faqList = items => items.length ? items.map(f => `<details class="faq"><summary>${esc(f.q[lang] || f.q.cs)}</summary><p>${esc(f.a[lang] || f.a.cs)}</p></details>`).join('') : `<p class="fine">${L('Nic jsme nenašli. Zkuste „cena“, „zavazadla“ nebo „let“.', 'Nothing found. Try "price", "luggage" or "flight".')}</p>`;
     function renderHelp() {
-      app.innerHTML = head(L('Nápověda', 'Help'), L('Ptejte se.<br>Rádi <em>odpovíme.</em>', 'Ask us.<br>We are <em>happy to help.</em>'), L('Nejčastější dotazy k rezervaci, ceně, letům i platbě.', 'Frequent questions about booking, price, flights and payment.'))
+      app.innerHTML = head(L('Nápověda', 'Help'), L('Ptejte se<br>Rádi <em>odpovíme</em>', 'Ask us<br>We are <em>happy to help</em>'), L('Nejčastější dotazy k rezervaci, ceně, letům i platbě.', 'Frequent questions about booking, price, flights and payment.'))
         + `<div class="split"><div><label class="search">${icon('search')}<input id="faq-q" type="search" placeholder="${L('Např. zpoždění letu', 'e.g. flight delay')}" aria-label="${L('Hledat', 'Search')}"></label><div id="faq-list">${faqList(FAQ)}</div></div>
         <aside class="aside"><h2>${L('Nenašli jste odpověď?', 'Still stuck?')}</h2><p>${L('Průvodce vám poradí s rezervací, zavazadly nebo autosedačkou přímo tady v prohlížeči.', 'The assistant helps with bookings, luggage or child seats right here in your browser.')}</p>
         <button class="btn btn-ghost" type="button" data-a="chat">${icon('msg')}${L('Zeptat se průvodce', 'Ask the assistant')}</button>
@@ -2205,7 +2268,7 @@
         <div class="links" style="display:none"><a class="text-link" href="tel:+420774571747">${L('Telefon 24/7', 'Phone 24/7')} · +420 774 571 747 ↗</a><a class="text-link" href="https://wa.me/420774571747" target="_blank" rel="noopener">WhatsApp ↗</a><a class="text-link" href="mailto:cztransfertaxi@gmail.com">cztransfertaxi@gmail.com ↗</a><button class="text-link" type="button" data-a="privacy">${L('O datech', 'About the data')}</button></div></aside></div></section>`;
     }
     function renderRef() {
-      app.innerHTML = head(L('Doporučení', 'Referrals'), L('Sdílejte.<br>Jezděte <em>výhodněji.</em>', 'Share it.<br>Ride for <em>less.</em>'), L('Váš kód dá kamarádovi slevu na první jízdu.', 'Your code gives a friend a discount on their first ride.'))
+      app.innerHTML = head(L('Doporučení', 'Referrals'), L('Sdílejte<br>Jezděte <em>výhodněji</em>', 'Share it<br>Ride for <em>less</em>'), L('Váš kód dá kamarádovi slevu na první jízdu.', 'Your code gives a friend a discount on their first ride.'))
         + `<div class="split"><div><h2 class="section-h">${L('Váš kód', 'Your code')}</h2><div class="ref-code"><strong>${refCode}</strong><button class="icon-btn" type="button" data-a="copy-code" aria-label="${L('Kopírovat', 'Copy')}">${icon('copy')}</button></div>
         <button class="btn btn-solid wide" type="button" data-a="share">${L('Zkopírovat pozvánku', 'Copy invitation')} ${icon('arrow')}</button>
         <p class="fine">${L('Ukázková funkce: kód je uložený jen v tomto prohlížeči a slevu uplatní pouze zdejší kalkulačka. Skutečné odměny by vyžadovaly zákaznický účet na straně serveru.', 'Demo feature: the code lives only in this browser and the discount applies only to this calculator. Real rewards would need a server-side customer account.')}</p></div>
@@ -2451,7 +2514,7 @@
       if (!dataSession.authorized || !dataSession.items.length || dataSession.expiresAt <= Date.now()) return;
       const cell = value => `"${String(value ?? '').replace(/^[\s\u0000-\u001f]*[=+@-]/, "'$&").replaceAll('"', '""')}"`;
       const rows = [[L('Rezervace', 'Booking'), L('Výlet', 'Tour'), L('Klient', 'Client'), L('Datum', 'Date'), L('Čas', 'Time'), L('Vyzvednutí', 'Pickup'), L('Cíl', 'Destination'), L('Místa výletu', 'Tour stops'), L('Zastávka', 'Stopover'), L('Vůz', 'Vehicle'), 'CZK', L('Stav platby', 'Payment status')], ...dataSession.items.map(r => [r.id, r.tourName, r.customerName, r.date, r.time, placeText(r.locations.pickup), r.locations.destination ? placeText(r.locations.destination) : L('Hodinová dispozice', 'Hourly hire') + ` (${Number(r.hours) || 0} h)`, (r.locations.stopovers || []).map((point, i) => `${i + 1}. ${placeText(point)}`).join(' | '), placeText(r.locations.stopover), FLEET[r.car]?.label || r.car, r.amount, paymentStateName(r.paymentStatus, r.testPayment)])];
-      download(`wayro-reservations-page-${dataSession.page}.csv`, rows.map(row => row.map(cell).join(';')).join('\r\n'), 'text/csv;charset=utf-8');
+      download(`transferbyvan-reservations-page-${dataSession.page}.csv`, rows.map(row => row.map(cell).join(';')).join('\r\n'), 'text/csv;charset=utf-8');
     }
 
     function renderDispatch() {
@@ -2570,83 +2633,102 @@
       const locations = draftPlaces();
       const meet = meetingFor(locations.pickup, S.meet);
       const tour = TOURS.find(item => item.id === S.tourId);
-      return `<aside class="summary"><h3 class="sum-h">${tour ? L('Váš výlet', 'Your tour') : L('Vaše jízda', 'Your ride')}</h3>
+      return `<aside class="summary"><h3 class="sum-h">${tour ? L('Váš výlet', 'Your tour') : L('Vaše rezervace', 'Your reservation')}</h3><div class="route-map" id="sum-map" aria-label="${L('Mapa trasy', 'Route map')}"></div>
         ${tour ? `<p class="note">${tour.title[lang]}</p>` : ''}
-        <div class="summary-itinerary">${placeMarkup(locations.pickup, L('Vyzvednutí', 'Pickup'))}        ${locations.stopovers.map((point, i) => placeMarkup(point, `${L('Místo', 'Stop')} ${i + 1}`)).join('')}${locations.stopover ? placeMarkup(locations.stopover, L('Zastávka', 'Stopover')) : ''}${locations.destination ? placeMarkup(locations.destination, L('Cíl', 'Destination')) : `<span>${L('Hodinová dispozice', 'Hourly hire')} · ${S.hours} h</span>`}</div>
+        <div class="summary-itinerary">${placeMarkup(locations.pickup, L('Vyzvednutí', 'Pickup'))}        ${locations.stopovers.map((point, i) => placeMarkup(point, `${L('Zastávka', 'Stop')} ${i + 1}${S.tourStops[i]?.time ? ' · ' + S.tourStops[i].time : ''}`)).join('')}${locations.stopover ? placeMarkup(locations.stopover, L('Zastávka', 'Stopover')) : ''}${locations.destination ? placeMarkup(locations.destination, L('Cíl', 'Destination')) : `<span>${L('Hodinová dispozice', 'Hourly hire')} · ${S.hours} h</span>`}</div>
         <p class="sum-det">${dtLbl(S.date, S.time)}<br>${FLEET[S.car].label} · ${t('pax')(S.pax)}${Number.isFinite(q.km) && q.km > 0 ? `<br>${tour ? L('Celá zpáteční trasa', 'Full round trip') : L('Trasa po silnici', 'Road distance')}: ${q.km.toFixed(1).replace('.', lang === 'cs' ? ',' : '.')} km${Number.isFinite(q.min) && q.min > 0 ? ` · ${q.min} min` : ''}` : ''}${S.roundtrip ? `<br>${L('Zpět', 'Back')}: ${dtLbl(S.retDate, S.retTime)}` : ''}${meet ? `<br>${meet.t} · ${meet.s}` : ''}</p>
         <div class="pline-wrap">${tour
           ? `<div class="pline"><span>${L('Cena celé zpáteční trasy', 'Full round-trip fare')}</span><span>${money((q.base || 0) + (q.ret || 0))}</span></div>`
           : `<div class="pline"><span>${S.mode === 'hourly' ? L('Dispozice', 'Hourly hire') : L('Transfer', 'Transfer')}</span><span>${money(q.base)}</span></div>
         ${q.ret ? `<div class="pline"><span>${L('Zpáteční jízda', 'Return ride')}</span><span>${money(q.ret)}</span></div>` : ''}`}
-        ${S.seats ? `<div class="pline"><span>${L('Autosedačka', 'Child seat')} ×${S.seats}</span><span>${L('zdarma', 'free')}</span></div>` : ''}
+        ${S.seats ? `<div class="pline"><span>${L('Autosedačky', 'Child seats')} ×${S.seats}</span><span>${q.seat ? '+' + money(q.seat) : L('zdarma', 'free')}</span></div>` : ''}
         ${q.disc ? `<div class="pline disc"><span>${L('Sleva', 'Discount')} ${Math.round(S.discount * 100)} %</span><span>−${money(q.disc)}</span></div>` : ''}</div>
         <div class="total-row"><span>${q.kind === 'fixed' ? L('Celkem', 'Total') : L('Odhad', 'Estimate')}</span><strong>${money(q.total)}</strong></div>
-        <p class="sum-inc">${L('Cedulka se jménem', 'Name sign')}<br>${L('Autosedačka zdarma', 'Free child seat')}<br>${L('Wi-Fi a voda ve voze', 'Wi-Fi and water on board')}${tour ? '' : `<br>${S.pay === 'online' ? L('Bezpečná online platba přes Stripe', 'Secure online payment via Stripe') : L('Platba po jízdě při volbě u řidiče', 'Pay after the ride when choosing driver payment')}`}</p>
+        <p class="sum-inc">${L('Cedulka se jménem', 'Name sign')}<br>${L('1. autosedačka zdarma', '1st child seat free')}<br>${L('Wi-Fi a voda ve voze', 'Wi-Fi and water on board')}${tour ? '' : `<br>${S.pay === 'online' ? L('Bezpečná online platba přes Stripe', 'Secure online payment via Stripe') : S.pay === 'paypal' ? 'PayPal' : S.pay === 'qr' ? L('QR platba', 'QR payment') : L('Platba po jízdě při volbě u řidiče', 'Pay after the ride when choosing driver payment')}`}</p>
         <p class="fine" style="margin-top:14px">${tour ? L('Cena se počítá podle celé trasy a potvrzené sazby; dostupnost minivanu potvrdí dispečink.', 'Fare uses the full route and agreed tariff; dispatch confirms minivan availability.') : q.kind === 'fixed' ? L('Pevná cena za vozidlo.', 'Fixed price per vehicle.') : L('Orientační cena, potvrdí dispečer.', 'Estimate, confirmed by dispatch.')}<br>${L('Zkontrolujte konkrétní místa a adresy před odesláním.', 'Check the exact locations and addresses before submitting.')}</p></aside>`;
     }
     const counter = (key, label, note, max, ic) => `<div class="counter-row"><div class="c-label">${icon(ic)}<span>${label}<small>${note}</small></span></div><div class="counter"><button type="button" data-a="cnt" data-k="${key}" data-d="-1" aria-label="−" ${S[key] === 0 ? 'disabled' : ''}>${icon('minus')}</button><output id="c-${key}">${S[key]}</output><button type="button" data-a="cnt" data-k="${key}" data-d="1" aria-label="+" ${S[key] >= max ? 'disabled' : ''}>${icon('plus')}</button></div></div>`;
 
+    const STEPS = () => [L('Trasa', 'Route'), L('Zadání', 'Details'), L('Vůz', 'Vehicle'), L('Kontakt', 'Contact'), L('Platba', 'Payment')];
+    const stepperMarkup = () => `<ol class="stepper" aria-label="${L('Postup rezervace', 'Booking progress')}">${STEPS().map((n, i) => `<li class="${i === 0 || i < step ? 'done' : i === step ? 'now' : ''}"><b>${i === 0 || i < step ? '✓' : i + 1}</b><span>${n}</span></li>`).join('')}</ol>`;
+    const PAY_OPTIONS = () => [
+      ['cash', 'cash', t('pay').cash, t('pay').cashS, ''],
+      ['card', 'card', t('pay').card, t('pay').cardS, ''],
+      ['online', 'globe', L('Online kartou · Apple Pay · Google Pay', 'Online card · Apple Pay · Google Pay'), L('Bezpečná platba předem přes Stripe. Apple Pay a Google Pay se nabídnou podle zařízení.', 'Secure advance payment via Stripe. Apple Pay and Google Pay are offered depending on your device.'), '<span class="wallets"><i>Card</i><i>Apple Pay</i><i>Google Pay</i></span>'],
+      ['paypal', 'globe', 'PayPal', L('Přesměrujeme vás na PayPal s předvyplněnou částkou.', 'You are redirected to PayPal with the amount prefilled.'), ''],
+      ['qr', 'bank', L('QR platba (bankovní převod)', 'QR payment (bank transfer)'), L('Naskenujte QR kód v bankovní aplikaci. Platbu ověřuje dispečink ručně.', 'Scan the QR code in your banking app. Dispatch verifies the payment manually.'), '']
+    ];
     function renderBook() {
-      const one = step === 1;
       const car = FLEET[S.car];
       const tour = TOURS.find(item => item.id === S.tourId);
       const airportPickup = pickupType(draftPlaces().pickup) === 'airport';
       if (airportPickup && !['t1', 't2'].includes(S.meet)) S.meet = 't1';
+      const q0 = fare();
       const vehicleChoices = tour
-        ? `<div class="pick"><span>${car.label}<small style="display:block;color:var(--ink-faint)">${tour.title[lang]} · ${L('max.', 'max')} ${car.pax}</small></span><small class="pick-price">${money(fare().total)}</small></div>`
-        : Object.entries(FLEET).map(([k, c]) => `<label class="pick"><input type="radio" name="car" value="${k}" ${S.car === k ? 'checked' : ''}><span>${c.label}<small style="display:block;color:var(--ink-faint)">${L('max', 'max')} ${c.pax} · ${c.bags} ${L('zav.', 'bags')}</small></span><small class="pick-price">${money(fare({ ...S, car: k }).total)}</small></label>`).join('');
-      mbody.innerHTML = dHead(one ? L('01 / Detaily jízdy', '01 / Ride details') : L('02 / Kontakt a platba', '02 / Contact and payment'),
-        one ? L('Ať sedí každý detail.', 'Let us get the details right.') : L('Kam vám pošleme potvrzení?', 'Where should we confirm?'),
-        one ? L('Vůz, zavazadla a autosedačky. Vše zdarma navíc.', 'Vehicle, luggage and child seats. All extras free.') : S.pay === 'online' ? L('Bezpečná online platba proběhne přes Stripe.', 'Secure online payment is processed through Stripe.') : L('Dispečer rezervaci potvrdí e-mailem; zaplatíte u řidiče.', 'Dispatch confirms the booking by e-mail; pay the driver after the ride.'))
-        + `<div class="checkout"><div class="co-main"><form id="co-form">${one ? `
-        <span class="s-label" style="margin-top:0">${L('Vůz', 'Vehicle')}</span>
-        <div class="picks">${vehicleChoices}</div>
-        ${airportPickup ? `<span class="s-label">${L('Terminál vyzvednutí', 'Pickup terminal')}</span><div class="picks">${['t1','t2'].map(k => { const m = MEETS[k]; return `<label class="pick"><input type="radio" name="meet" value="${k}" ${S.meet === k ? 'checked' : ''}><span>${m.t}<small style="display:block;color:var(--ink-faint)">${m.s}</small></span></label>`; }).join('')}</div>` : ''}
-        <div class="form-grid"><label class="form-field"><span>${L('Číslo letu', 'Flight number')}${airportPickup ? '' : L(' (nepovinné)', ' (optional)')}</span><input class="input" name="flight" value="${esc(S.flight)}" placeholder="LH1400" maxlength="9" style="text-transform:uppercase"></label>
-        <label class="form-field"><span>${L('Jméno na cedulku', 'Name for the sign')}</span><input class="input" name="sign" value="${esc(S.sign || '')}" placeholder="${L('Např. Novák', 'e.g. Novak')}" maxlength="50"></label></div>
+        ? `<div class="fleet-opt"><img src="${car.img}" alt="${esc(car.label)}"><div><h4>${car.label}</h4><p>${tour.title[lang]}<br>${L('max.', 'max')} ${car.pax} ${L('osob', 'people')} · ${car.bags} ${L('zavazadel', 'bags')}</p></div><small class="pick-price">${money(q0.total)}</small></div>`
+        : Object.entries(FLEET).map(([k, c]) => `<label class="fleet-opt"><input type="radio" name="car" value="${k}" ${S.car === k ? 'checked' : ''}><img src="${c.img}" alt="${esc(c.label)}" loading="lazy"><div><h4>${c.label}</h4><p>${c.model[lang] || c.model.cs}<br>${L('max.', 'max')} ${c.pax} ${L('osob', 'people')} · ${c.bags} ${L('zavazadel', 'bags')} · ${c.seats} ${L('autosedaček', 'child seats')}</p></div><small class="pick-price">${money(fare({ ...S, car: k }).total)}</small></label>`).join('');
+      const titles = [null,
+        [L('Zadání', 'Details'), L('Ať sedí každý detail.', 'Let us get the details right.'), L('Zastávky s časem, zavazadla a dětské autosedačky. První sedačka zdarma, každá další 100 Kč.', 'Stops with a time, luggage and child seats. The first child seat is free, each extra one is 100 CZK.')],
+        [L('Vozový park', 'Fleet'), L('Vyberte si vůz.', 'Choose your vehicle.'), L('Cena je za celé vozidlo, ne za osobu.', 'The price is per vehicle, not per person.')],
+        [L('Kontakt', 'Contact'), L('Kam vám pošleme potvrzení?', 'Where should we confirm?'), L('Dispečer rezervaci potvrdí e-mailem.', 'Dispatch confirms the booking by e-mail.')],
+        [L('Platba', 'Payment'), L('Jak chcete zaplatit?', 'How would you like to pay?'), L('Vyberte způsob platby. Apple Pay, Google Pay, PayPal i QR platba jsou k dispozici.', 'Pick a payment method. Apple Pay, Google Pay, PayPal and QR payment are available.')]
+      ];
+      const [eyebrow, title, desc] = titles[step];
+      let body = '';
+      if (step === 1) body = `
+        ${airportPickup ? `<span class="s-label" style="margin-top:0">${L('Terminál vyzvednutí', 'Pickup terminal')}</span><div class="picks">${['t1','t2'].map(k => { const m = MEETS[k]; return `<label class="pick"><input type="radio" name="meet" value="${k}" ${S.meet === k ? 'checked' : ''}><span>${m.t}<small style="display:block;color:var(--ink-faint)">${m.s}</small></span></label>`; }).join('')}</div>` : ''}
+        <div class="form-grid"><label class="form-field"><span>${L('Jméno na cedulku', 'Name for the sign')}</span><input class="input" name="sign" value="${esc(S.sign || '')}" placeholder="${L('Např. Novák', 'e.g. Novak')}" maxlength="50"></label></div>
+        ${S.mode === 'hourly' || tour ? '' : `<span class="s-label">${L('Zastávky na trase', 'Stops along the route')}</span><div class="tour-stops">${tourStopsMarkup()}</div>`}
         <span class="s-label">${L('Zavazadla', 'Luggage')}</span>
         ${counter('bagsBig', L('Velké zavazadlo', 'Large suitcase'), L('do 75 cm', 'up to 75 cm'), car.bags, 'case')}
         ${counter('bagsSmall', L('Příruční zavazadlo', 'Cabin bag'), L('do 55 cm', 'up to 55 cm'), 4, 'case')}
         <label class="check"><input type="checkbox" name="pram" ${S.pram ? 'checked' : ''}>${L('Vezu kočárek nebo sportovní vybavení', 'I have a pram or sports gear')}</label>
         <span class="s-label">${L('Děti', 'Children')}</span>
-        ${car.seats === 0 ? `<p class="note">${L('Mercedes E nenabízí autosedačku. Vyberte jiný vůz.', 'Mercedes E does not offer a child seat. Choose another vehicle.')}</p>` : counter('seats', L('Autosedačka (max. 1)', 'Child seat (max. 1)'), L('zdarma', 'free of charge'), Math.min(car.seats, S.pax), 'seat')}
+        ${car.seats === 0 ? `<p class="note">${L('Mercedes E nenabízí autosedačku. Vyberte jiný vůz.', 'Mercedes E does not offer a child seat. Choose another vehicle.')}</p>` : counter('seats', L('Dětské autosedačky', 'Child seats'), L('1. zdarma · každá další +100 Kč', '1st free · each extra +100 CZK'), Math.min(car.seats, S.pax), 'seat')}
         ${S.seats ? `<label class="form-field" style="margin-top:15px"><span>${L('Typ sedačky', 'Seat type')}</span><select class="input" name="seatType">${Object.entries(SEATS).map(([k, v]) => `<option value="${k}" ${S.seatType === k ? 'selected' : ''}>${v[lang] || v.cs}</option>`).join('')}</select></label>` : ''}
-        ${tour ? '' : addressField('stopover', L('Zastávka po cestě (nepovinné)', 'Stop along the way (optional)'), S.stopover || '', '', false)}
         <label class="form-field" style="margin-top:15px"><span>${L('Poznámka pro řidiče', 'Note for the driver')}</span><textarea class="input" name="notes" rows="2" maxlength="400" placeholder="${L('Nadměrné zavazadlo, jiná domluva…', 'Oversized luggage, other agreement…')}">${esc(S.notes)}</textarea></label>
-        <input type="hidden" id="promo" value="${esc(S.promo)}">
-        <p class="err" id="co-err" role="alert" hidden></p><div class="d-actions"><button class="btn btn-solid" type="submit">${L('Pokračovat', 'Continue')} ${icon('arrow')}</button></div>` : `
+        <input type="hidden" id="promo" value="${esc(S.promo)}">`;
+      else if (step === 2) body = `<div class="fleet-pick">${vehicleChoices}</div>`;
+      else if (step === 3) body = `
         <label class="form-field"><span>${L('Jméno a příjmení', 'Full name')}</span><input class="input" name="name" value="${esc(S.name)}" minlength="2" maxlength="60" autocomplete="name" required></label>
         <div class="form-grid"><label class="form-field"><span>${L('Telefon', 'Phone')}</span><input class="input" name="phone" type="tel" value="${esc(S.phone)}" placeholder="+420 777 123 456" maxlength="25" autocomplete="tel" required></label>
-        <label class="form-field"><span>E-mail <span style="color:var(--ink-faint);font-weight:400">${L('(pro odpověď dispečinku)', '(for the dispatcher reply)')}</span></span><input class="input" name="email" type="email" value="${esc(S.email)}" placeholder="jan@example.com" maxlength="120" autocomplete="email" required></label></div>
-        <span class="s-label">${L('Platba', 'Payment')}</span>
-        ${tour ? `<input type="hidden" name="pay" value="online"><div class="pick">${icon('globe')}<span>${L('Online kartou přes Stripe', 'Online card payment via Stripe')}<small style="display:block;color:var(--ink-faint)">${L('Částka se strhne při platbě. Dostupnost minivanu následně potvrdí dispečink.', 'The amount is charged at checkout. Dispatch confirms minivan availability afterward.')}</small></span></div>` : [['cash', 'cash'], ['card', 'card'], ['online', 'globe']].map(([k, ic]) => `<label class="pick" style="margin-bottom:8px"><input type="radio" name="pay" value="${k}" ${S.pay === k ? 'checked' : ''}>${icon(ic)}<span>${t('pay')[k]}<small style="display:block;color:var(--ink-faint)">${t('pay')[k + 'S']}</small></span></label>`).join('')}
-        <div class="banner" style="font-size:11.5px">${icon('info')}<p>${S.pay === 'online' ? L('Platba proběhne bezpečně přes Stripe. Rezervaci a dostupnost vozu následně potvrdí dispečink e-mailem.', 'Payment is processed securely through Stripe. Dispatch will confirm the booking and vehicle availability by e-mail.') : L('Neplatíte nic předem. Rezervace je ve stavu zpracování, dokud ji dispečer nepotvrdí e-mailem.', 'You pay nothing upfront. The booking stays in processing until dispatch confirms it by e-mail.')}</p></div>
-        <label class="check"><input type="checkbox" name="consent" ${S.consent ? 'checked' : ''} required><span>${S.pay === 'online' ? L('Souhlasím se zpracováním údajů a beru na vědomí online platbu přes Stripe; rezervaci potvrdí dispečink e-mailem.', 'I agree to data processing and understand payment is online through Stripe; dispatch will confirm the booking by e-mail.') : L('Souhlasím se zpracováním údajů pro rezervaci a s podmínkami Transfer by Van. Závazná je až potvrzení dispečinkem.', 'I agree to data processing for this booking and to Transfer by Van terms. It becomes binding only after dispatch confirms it.')}</span></label>
+        <label class="form-field"><span>E-mail</span><input class="input" name="email" type="email" value="${esc(S.email)}" placeholder="jan@example.com" maxlength="120" autocomplete="email" required></label></div>`;
+      else body = `
+        ${tour ? `<input type="hidden" name="pay" value="online"><div class="pick">${icon('globe')}<span>${L('Online kartou · Apple Pay · Google Pay', 'Online card · Apple Pay · Google Pay')}<small style="display:block;color:var(--ink-faint)">${L('Částka se strhne při platbě. Dostupnost minivanu následně potvrdí dispečink.', 'The amount is charged at checkout. Dispatch confirms minivan availability afterward.')}</small></span></div>` : PAY_OPTIONS().map(([k, ic, name, sub, extra]) => `<label class="pick" style="margin-bottom:8px"><input type="radio" name="pay" value="${k}" ${S.pay === k ? 'checked' : ''}>${icon(ic)}<span>${name}<small style="display:block;color:var(--ink-faint)">${sub}</small>${extra}</span></label>`).join('')}
+        <div class="banner" style="font-size:11.5px">${icon('info')}<p>${S.pay === 'qr' ? L('Po odeslání uvidíte QR kód s částkou a variabilním symbolem. Rezervaci potvrdí dispečink po přijetí platby.', 'After sending you will see a QR code with the amount and variable symbol. Dispatch confirms after the payment arrives.') : S.pay === 'paypal' ? L('Po odeslání vás přesměrujeme na PayPal. Platbu ověřuje dispečink ručně.', 'After sending we redirect you to PayPal. Dispatch verifies the payment manually.') : S.pay === 'online' ? L('Platba proběhne bezpečně přes Stripe. Rezervaci a dostupnost vozu následně potvrdí dispečink e-mailem.', 'Payment is processed securely through Stripe. Dispatch will confirm the booking and vehicle availability by e-mail.') : L('Neplatíte nic předem. Rezervace je ve stavu zpracování, dokud ji dispečer nepotvrdí e-mailem.', 'You pay nothing upfront. The booking stays in processing until dispatch confirms it by e-mail.')}</p></div>
+        <div class="flight-row" style="margin:14px 0"><label class="form-field" style="flex:1"><span>${L('Číslo letu', 'Flight number')}${airportPickup ? '' : L(' (nepovinné)', ' (optional)')}</span><input class="input" id="flight" name="flight" value="${esc(S.flight)}" placeholder="LH1400" maxlength="9" style="text-transform:uppercase" autocomplete="off"></label><button class="btn btn-ghost btn-small" type="button" data-a="check-flight" id="flight-check">${icon('satellite')} ${L('Zkontrolovat let', 'Check flight')}</button><span class="flight-res" id="flight-res"></span></div>
+        <label class="check"><input type="checkbox" name="consent" ${S.consent ? 'checked' : ''} required><span>${L('Souhlasím se zpracováním údajů pro rezervaci a s podmínkami Transfer by Van. Závazná je až potvrzení dispečinkem.', 'I agree to data processing for this booking and to Transfer by Van terms. It becomes binding only after dispatch confirms it.')}</span></label>`;
+      const last = step === 4;
+      mbody.innerHTML = dHead(eyebrow, title, desc)
+        + stepperMarkup()
+        + `<div class="checkout"><div class="co-main"><form id="co-form">${body}
         <p class="err" id="co-err" role="alert" hidden></p>
-        <div class="d-actions"><button class="btn btn-ghost" type="button" data-a="co-back">${L('Zpět', 'Back')}</button><button class="btn btn-solid" id="co-send" type="submit">${L('Odeslat rezervaci', 'Send booking')} ${icon('arrow')}</button></div>`}</form></div><div id="sum">${summary()}</div></div></div>`;
+        <div class="d-actions">${step > 1 ? `<button class="btn btn-ghost" type="button" data-a="co-back">${L('Zpět', 'Back')}</button>` : ''}<button class="btn btn-solid" ${last ? 'id="co-send"' : ''} type="submit">${last ? L('Odeslat rezervaci', 'Send booking') : L('Pokračovat', 'Continue')} ${icon('arrow')}</button></div></form></div><div id="sum">${summary()}</div></div></div>`;
       modal.scrollTop = 0;
       syncHome();
+      drawRouteMap($('#sum-map'));
     }
     function readModal() {
       const f = $('#co-form');
       if (!f) return;
       const d = new FormData(f);
       if (step === 1) {
-        S.flight = String(d.get('flight') || '').trim().toUpperCase();
         S.sign = String(d.get('sign') || '').trim();
         S.notes = String(d.get('notes') || '').trim();
-        S.stopover = S.tourId ? '' : String(d.get('stopover') || '').trim();
-        if (S.stopoverGeo?.label !== S.stopover) S.stopoverGeo = null;
+        S.stopover = ''; S.stopoverGeo = null;
         S.pram = d.has('pram');
         if (d.get('meet')) S.meet = String(d.get('meet'));
         if (d.get('seatType')) S.seatType = String(d.get('seatType'));
-      } else {
-        ['name', 'phone', 'email', 'pay'].forEach(k => { S[k] = String(d.get(k) || '').trim(); });
+      } else if (step === 3) {
+        ['name', 'phone', 'email'].forEach(k => { S[k] = String(d.get(k) || '').trim(); });
+      } else if (step === 4) {
+        if (d.get('pay')) S.pay = String(d.get('pay'));
+        S.flight = String(d.get('flight') || '').trim().toUpperCase();
         S.consent = d.has('consent');
       }
     }
     function refreshSummary() {
-      if ($('#sum')) $('#sum').innerHTML = summary();
+      if ($('#sum')) { $('#sum').innerHTML = summary(); drawRouteMap($('#sum-map')); }
       $$('input[name="car"]').forEach(i => { const s = i.closest('.pick')?.querySelector('.pick-price'); if (s) s.textContent = money(fare({ ...S, car: i.value }).total); });
       syncHome();
     }
@@ -2660,6 +2742,10 @@
       if (!quoted) {
         if ($('#book-err')) { $('#book-err').textContent = L('Vyberte přesná místa a vyčkejte na potvrzený výpočet. Bez něj rezervaci neodesíláme.', 'Select exact places and wait for a confirmed quote. We do not submit bookings without it.'); $('#book-err').hidden = false; }
         return;
+      }
+      if (S.pay === 'paypal' || S.pay === 'qr') {
+        await loadPublicConfig();
+        if (S.pay === 'paypal' && !PUB.paypal) S.pay = 'cash';
       }
       if (S.pay === 'online') {
         if (!await loadPublicConfig()) {
@@ -2682,26 +2768,27 @@
       const used = orders.some(o => !o.cancelled);
       let err = '', disc = 0;
       if (!v) { S.promo = ''; S.discount = 0; }
-      else if (v === 'WAYRO10') disc = .1;
+      else if (v === 'TBV10') disc = .1;
       else if (v === 'PRG15') { if (used) err = L('Kód platí jen pro první rezervaci.', 'This code is for the first booking only.'); else disc = .15; }
       else if (/^WY-[A-Z0-9]{6}$/.test(v)) { if (v === refCode) err = L('Vlastní kód nelze použít.', 'You cannot use your own code.'); else if (used) err = L('Kód kamaráda platí na první jízdu.', "A friend's code applies to the first ride."); else disc = .1; }
-      else err = L('Kód neznáme. Zkuste WAYRO10.', 'Unknown code. Try WAYRO10.');
+      else err = L('Kód neznáme. Zkuste TBV10.', 'Unknown code. Try TBV10.');
       if (!err) { S.promo = v; S.discount = disc; }
       const m = $('#promo-msg');
       m.textContent = err || (disc ? L(`Sleva ${Math.round(disc * 100)} % byla uplatněna.`, `${Math.round(disc * 100)} % discount applied.`) : L('Kód byl odebrán.', 'Code removed.'));
       m.style.color = err ? '#e6b98f' : '';
       invalidateQuote(); refreshSummary(); requestQuote();
     }
-    function validateDetails() {
+    function validateDetails(early = false) {
       const car = FLEET[S.car];
       if (S.flight && !/^[A-Z0-9]{2,3}\s?\d{1,4}$/.test(S.flight)) return L('Zkontrolujte číslo letu, například LH1400.', 'Check the flight number, e.g. LH1400.');
-      if (pickupType(draftPlaces().pickup) === 'airport' && !S.flight) return L('U jízdy z letiště prosím uveďte číslo letu, ať můžeme sledovat přílet.', 'For an airport pickup please add the flight number so we can track the arrival.');
+      if (!early && pickupType(draftPlaces().pickup) === 'airport' && !S.flight) return L('U jízdy z letiště prosím uveďte číslo letu, ať můžeme sledovat přílet.', 'For an airport pickup please add the flight number so we can track the arrival.');
       if (S.seats > car.seats) return L(`${car.label} nabízí ${car.seats} autosedaček. Zvolte jiný vůz.`, `${car.label} offers ${car.seats} child seats. Please pick another vehicle.`);
       if (S.seats > S.pax) return L('Autosedaček nemůže být víc než cestujících.', 'There cannot be more child seats than passengers.');
       if (S.bagsBig > car.bags || S.bagsBig * 2 + S.bagsSmall + (S.pram ? 2 : 0) > car.bags * 2 + 2) return L(`Tolik zavazadel se do vozu ${car.label} nevejde. Zvolte větší vůz.`, `That much luggage will not fit in the ${car.label}. Please pick a larger vehicle.`);
-      if ((S.promo === 'PRG15' || S.promo.startsWith('WY-')) && orders.some(o => !o.cancelled)) return L('Sleva na první jízdu už není dostupná, použijte WAYRO10.', 'The first-ride discount is no longer available; use WAYRO10.');
+      if ((S.promo === 'PRG15' || S.promo.startsWith('WY-')) && orders.some(o => !o.cancelled)) return L('Sleva na první jízdu už není dostupná, použijte TBV10.', 'The first-ride discount is no longer available; use TBV10.');
       return validateRide();
     }
+    const sampleRoute = path => { if (!Array.isArray(path) || path.length < 2) return null; const step = Math.max(1, Math.ceil(path.length / 150)); return path.filter((_, i) => i % step === 0 || i === path.length - 1); };
     function buildOrder(demo = true, b = S, receipt = null) {
       const q = fare(b);
       const chosen = receipt?.locations || draftPlaces();
@@ -2709,10 +2796,11 @@
         pickup: snapshotPlace(chosen.pickup, b.from),
         destination: b.mode === 'hourly' ? null : snapshotPlace(chosen.destination, b.to),
         stopover: chosen.stopover ? snapshotPlace(chosen.stopover, b.stopover) : null,
-        stopovers: (chosen.stopovers || []).map(point => snapshotPlace(point, point.label))
+        stopovers: (chosen.stopovers || []).map((point, i) => ({ ...snapshotPlace(point, point.label), time: b.tourStops?.[i]?.time || '' }))
       };
       return {
         id: `WY-${uid().slice(0, 6).toUpperCase()}`, at: new Date().toISOString(),
+        routePath: sampleRoute(Q.state === 'ok' ? Q.routePath : null), payment: receipt?.payment || null,
         from: locations.pickup.label, to: locations.destination?.label || '',
         locations, fromGeo: locations.pickup, toGeo: locations.destination,
         distanceKm: receipt?.distanceKm ?? q.km ?? null, durationMin: receipt?.durationMin ?? q.min ?? null,
@@ -2739,7 +2827,7 @@
       busy = true;
       // Freeze the submitted selection while network requests are in flight.
       const submitted = JSON.parse(JSON.stringify(S));
-      const submittedQuote = { id: Q.quoteId, price: Q.prices[S.car].total };
+      const submittedQuote = { id: Q.quoteId, price: Q.prices[S.car].total + seatFee(S) };
       const btn = $('#co-send');
       btn.disabled = true; btn.textContent = L('Odesílám…', 'Sending…');
       try {
@@ -2753,7 +2841,7 @@
             method: 'POST', 
             credentials: 'same-origin', 
             headers: { 'Content-Type': 'application/json', 'Idempotency-Key': checkoutKey },
-            body: JSON.stringify({ booking: { ...submitted, tourStops: submitted.tourStops.map(stop => stop.geo), language: lang }, quoteId: submittedQuote.id, expectedTotal: submittedQuote.price }),
+            body: JSON.stringify({ booking: { ...submitted, tourStops: submitted.tourStops.map(stop => ({ ...stop.geo, time: stop.time || '' })), language: lang }, quoteId: submittedQuote.id, expectedTotal: submittedQuote.price }),
             signal: AbortSignal.timeout(45000)
           });
 
@@ -2763,6 +2851,8 @@
           const receivedId = data.orderId || data.id;
           if (typeof receivedId !== 'string' || !receivedId || typeof data.accessToken !== 'string' || data.amount?.currency !== 'CZK' || data.amount.value !== submittedQuote.price || !snapshotMatchesBooking(data.locations?.pickup, 'from', submitted) || (submitted.mode !== 'hourly' && !snapshotMatchesBooking(data.locations?.destination, 'to', submitted)) || (submitted.tourStops.length && (!Array.isArray(data.locations?.stopovers) || data.locations.stopovers.length !== submitted.tourStops.length || data.locations.stopovers.some((point, i) => point.label !== submitted.tourStops[i].geo.label)))) throw new Error(L('Odpověď serveru není úplná. Ověřte rezervaci u dispečinku.', 'The server response is incomplete. Check the booking with dispatch.'));
           let paymentUrl = null;
+          if (submitted.pay === 'paypal' && !String(data.payment?.url || '').startsWith(CONFIG.paypalPrefix)) throw new Error(L('Platební odkaz PayPal není ověřený.', 'The PayPal payment link is not verified.'));
+          if (submitted.pay === 'qr' && !(data.payment?.method === 'qr' && typeof data.payment.spayd === 'string')) throw new Error(L('Server nevrátil údaje pro QR platbu.', 'The server did not return QR payment details.'));
           if (submitted.pay === 'online') {
             paymentUrl = new URL(data.confirmationUrl);
             if (paymentUrl.protocol !== 'https:' || !CONFIG.paymentHosts.includes(paymentUrl.hostname) || paymentUrl.username || paymentUrl.password) throw new Error(L('Platební odkaz není ověřený. Nepřesměrováváme vás.', 'The payment link is not verified. Redirect cancelled.'));
@@ -2774,6 +2864,7 @@
           real.accessToken = data.accessToken;
           real.emailStatus = data.emailStatus || 'unknown';
           real.testPayment = !!data.testPayment;
+          real.payment = data.payment || null;
           orders.unshift(real); 
           save(); 
           modal.close();
@@ -2782,8 +2873,9 @@
             window.location.assign(paymentUrl.href);
             return;
           }
+          if (submitted.pay === 'paypal') window.open(data.payment.url, '_blank', 'noopener');
 
-          S.name = ''; S.phone = ''; S.email = ''; S.consent = false;
+          S.name = ''; S.phone = ''; S.email = ''; S.consent = false; S.tourStops = []; S.seats = 0;
           location.hash = `/jizda/${encodeURIComponent(real.id)}`;
           toast(real.emailStatus === 'accepted' ? L('Žádost přijata. SMTP server přijal e-mail; doručení do schránky ještě není potvrzení vozu.', 'Request received. SMTP accepted the e-mail; this is not a vehicle confirmation.') : L('Žádost uložena, ale odeslání e-mailu nebylo potvrzeno. Kontaktujte dispečink.', 'Request saved, but sending the e-mail was not confirmed. Contact dispatch.'));
           return;
@@ -2827,7 +2919,7 @@
         const r = await fetch(`${CONFIG.statusEndpoint}?orderId=${encodeURIComponent(id)}`, { headers: { Authorization: `Bearer ${o.accessToken}` }, signal: AbortSignal.timeout(12000), cache: 'no-store' });
         if (!r.ok) throw new Error();
         const d = await r.json();
-        if (d.orderId !== id || !['succeeded', 'pending', 'pay_on_arrival', 'expired'].includes(d.paymentStatus) || d.amount?.value !== o.total || d.amount?.currency !== 'CZK') throw new Error();
+        if (d.orderId !== id || !['succeeded', 'pending', 'pay_on_arrival', 'awaiting_payment', 'expired'].includes(d.paymentStatus) || d.amount?.value !== o.total || d.amount?.currency !== 'CZK') throw new Error();
         let changed = o.payState !== d.paymentStatus || o.stage !== d.stage;
         if (d.locations?.pickup?.label && (o.ext.mode === 'hourly' || d.locations.destination?.label)) {
           const locations = { pickup: snapshotPlace(d.locations.pickup), destination: d.locations.destination ? snapshotPlace(d.locations.destination) : null, stopover: d.locations.stopover ? snapshotPlace(d.locations.stopover) : null };
@@ -2877,8 +2969,8 @@
     function voucher(id) {
       const o = orders.find(x => x.id === id); if (!o) return;
       const locations = orderPlaces(o), m = meetingFor(locations.pickup, o.ext.meet), dl = cancelDeadline(o);
-      download(`wayro-${o.id}.txt`, [
-        `WAYRO — ${L('VOUCHER / POTVRZENÍ TRANSFERU', 'VOUCHER / TRANSFER CONFIRMATION')}`, '',
+      download(`transferbyvan-${o.id}.txt`, [
+        `TRANSFER BY VAN — ${L('VOUCHER / POTVRZENÍ TRANSFERU', 'VOUCHER / TRANSFER CONFIRMATION')}`, '',
         `${L('Rezervace', 'Booking')}: ${o.id}`,
         `${L('Stav', 'Status')}: ${o.cancelled ? L('Zrušeno', 'Cancelled') : t('stages')[o.stage]}`,
         `${L('Vyzvednutí na adrese', 'Pickup location')}: ${placeText(locations.pickup)}`,
@@ -2994,18 +3086,18 @@
         case 'pick-car': if (FLEET[v]) { S.car = v; fitVehicle(); if (modal.open) modal.close(); if (path === '/') { syncHome(); $('.booking')?.scrollIntoView({ block: 'start' }); } else location.hash = '/'; toast(`${FLEET[S.car].label} · ${money(FLEET[S.car].base)} ${L('letiště – Praha', 'airport – Prague')}`); } break;
         case 'trip-filter': tripFilter = v; renderTrips(); anim(app); break;
         case 'add-tour-stop':
-          if (path === '/tury' && S.tourStops.length < 5) {
-            S.tourStops.push({ label: '', geo: null });
-            $('.tour-stops').innerHTML = tourStopsMarkup();
+          if ((path === '/tury' || kind === 'book') && S.tourStops.length < 5) {
+            S.tourStops.push({ label: '', geo: null, time: '' });
+            (modal.open ? modal : document).querySelector('.tour-stops').innerHTML = tourStopsMarkup();
             invalidateQuote();
             $(`#tour-stop-${S.tourStops.length - 1}`)?.focus();
           }
           break;
         case 'remove-tour-stop':
-          if (path === '/tury' && Number.isInteger(Number(v))) {
+          if ((path === '/tury' || kind === 'book') && Number.isInteger(Number(v))) {
             closeAC();
             S.tourStops.splice(Number(v), 1);
-            $('.tour-stops').innerHTML = tourStopsMarkup();
+            (modal.open ? modal : document).querySelector('.tour-stops').innerHTML = tourStopsMarkup();
             invalidateQuote();
           }
           break;
@@ -3061,7 +3153,7 @@
           const cell = x => `"${String(x).replace(/^\s*[=+@-]/, "'$&").replaceAll('"', '""')}"`;
           const rows = [[L('Číslo', 'ID'), L('Datum', 'Date'), L('Čas', 'Time'), L('Odkud', 'From'), L('Kam', 'To'), L('Místa výletu', 'Tour stops'), L('Vůz', 'Vehicle'), 'CZK', L('Stav', 'Status')],
             ...orders.map(o => { const p = orderPlaces(o); return [o.id, o.date, o.time, placeText(p.pickup), p.destination ? placeText(p.destination) : L('Hodinová dispozice', 'Hourly hire'), p.stopovers.map((point, i) => `${i + 1}. ${placeText(point)}`).join(' | '), FLEET[o.car].label, o.total, o.cancelled ? L('Zrušeno', 'Cancelled') : t('stages')[o.stage]]; })];
-          download('wayro-rides.csv', rows.map(r => r.map(cell).join(';')).join('\r\n'), 'text/csv;charset=utf-8');
+          download('transferbyvan-rides.csv', rows.map(r => r.map(cell).join(';')).join('\r\n'), 'text/csv;charset=utf-8');
           break;
         }
         case 'voucher': voucher(v); break;
@@ -3072,7 +3164,7 @@
         case 'chat': chat(); open(true); break;
         case 'privacy': privacy(); break;
         case 'promo-apply': applyPromo(); break;
-        case 'co-back': readModal(); step = 1; renderBook(); break;
+        case 'co-back': readModal(); step = Math.max(1, step - 1); renderBook(); break;
         case 'close': if (!busy) closeModal(); break;
         case 'cnt': {
           readModal();
@@ -3091,6 +3183,7 @@
     });
     document.addEventListener('input', e => {
       const el = e.target;
+      if (el.dataset.stopTime !== undefined) { const stop = S.tourStops[Number(el.dataset.stopTime)]; if (stop) stop.time = /^\d{2}:\d{2}$/.test(el.value) ? el.value : ''; return; }
       if (el.dataset.ac) {
         const { key, state, long } = addressContext(el.dataset.ac);
         const tourStop = /^tour-stop-(\d+)$/.exec(el.dataset.ac);
@@ -3131,7 +3224,7 @@
       if (el.matches('[name="pram"], [name="seatType"]')) readModal();
       if (el.matches('#biz-car')) bizTotal();
     });
-    document.addEventListener('submit', e => {
+    document.addEventListener('submit', async e => {
       const f = e.target;
       if (!['book-form', 'long-route-form', 'tour-form', 'co-form', 'rev-form', 'biz-form', 'biz-send', 'chat-form', 'driver-form', 'dispatch-form', 'data-login-form', 'data-filter-form'].includes(f.id)) return;
       e.preventDefault();
@@ -3166,8 +3259,21 @@
       if (f.id === 'tour-form') { startTourBooking(f); return; }
       if (f.id === 'co-form') {
         readModal();
-        if (step === 1) { const err = validateDetails(); if (err) { coErr(err); return; } step = 2; renderBook(); $('[name="name"]')?.focus(); }
-        else sendBooking();
+        if (step === 1 || step === 2) {
+          const err = validateDetails(true); if (err) { coErr(err); return; }
+          if (Q.state !== 'ok' || Q.key !== quoteKey(S) || Q.expiresAt < Date.now()) {
+            const ok = await requestQuote();
+            if (!ok) { coErr(L('Trasu s novými zastávkami se nepodařilo spočítat. Vyberte místa z nabídky.', 'Could not price the route with these stops. Pick places from the suggestions.')); return; }
+          }
+          step += 1; renderBook(); return;
+        }
+        if (step === 3) {
+          const digits = S.phone.replace(/\D/g, '');
+          if (S.name.length < 2 || digits.length < 9 || digits.length > 15) { coErr(L('Vyplňte jméno a platné telefonní číslo.', 'Enter your name and a valid phone number.')); return; }
+          if (!/^[^@\s]+@[^@\s.]+\.[^@\s]{2,}$/.test(S.email)) { coErr(L('Zkontrolujte e-mail, pošleme na něj potvrzení.', 'Check the e-mail, the confirmation goes there.')); return; }
+          step = 4; renderBook(); return;
+        }
+        sendBooking();
         return;
       }
       if (f.id === 'rev-form') {
@@ -3192,7 +3298,7 @@
       }
       if (f.id === 'biz-send') {
         const d = new FormData(f);
-        download('wayro-firemni-poptavka.txt', `WAYRO — ${L('PŘEDBĚŽNÁ POPTÁVKA', 'PRELIMINARY REQUEST')}\n\n${L('Firma', 'Company')}: ${d.get('co')}\nE-mail: ${d.get('mail')}\n${L('Jízd měsíčně', 'Rides per month')}: ${f.dataset.n}\n${L('Vůz', 'Vehicle')}: ${FLEET[f.dataset.c].label}\n${L('Vzorová trasa', 'Sample route')}: ${AIRPORT} – Praha\n${L('Orientační rozpočet', 'Estimated budget')}: ${money(Number(f.dataset.t))}\n\n${L('Nezávazný odhad, nejde o nabídku ani smlouvu. Poptávka nebyla odeslána.', 'Non-binding estimate, not an offer or contract. The request was not sent.')}\n`);
+        download('transferbyvan-firemni-poptavka.txt', `TRANSFER BY VAN — ${L('PŘEDBĚŽNÁ POPTÁVKA', 'PRELIMINARY REQUEST')}\n\n${L('Firma', 'Company')}: ${d.get('co')}\nE-mail: ${d.get('mail')}\n${L('Jízd měsíčně', 'Rides per month')}: ${f.dataset.n}\n${L('Vůz', 'Vehicle')}: ${FLEET[f.dataset.c].label}\n${L('Vzorová trasa', 'Sample route')}: ${AIRPORT} – Praha\n${L('Orientační rozpočet', 'Estimated budget')}: ${money(Number(f.dataset.t))}\n\n${L('Nezávazný odhad, nejde o nabídku ani smlouvu. Poptávka nebyla odeslána.', 'Non-binding estimate, not an offer or contract. The request was not sent.')}\n`);
         modal.close(); toast(L('Podklad stažen. Odeslání dispečinku není v ukázce připojené.', 'File downloaded. Sending to dispatch is not connected in this demo.'));
         return;
       }

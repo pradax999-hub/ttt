@@ -1,13 +1,13 @@
 services:
   - type: web
-    name: wayro-backend
+    name: transferbyvan-backend
     runtime: node
     plan: starter
     buildCommand: npm install
     startCommand: npm start
     healthCheckPath: /api/webhook/ping
     disk:
-      name: wayro-data
+      name: transferbyvan-data
       mountPath: /var/data
       sizeGB: 1
     envVars:

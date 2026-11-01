@@ -95,7 +95,7 @@ SMTP-переменные. Секреты вводите только в пан�
 первый результат не бронируется автоматически. Данные отличаются от Google Maps.
 
 Публичный Nominatim больше не используется: его политика запрещает автоподсказки.
-Без Geoapify-ключа для выбора мест доступны только локальные точки Wayro, а дорожный
+Без Geoapify-ключа для выбора мест доступны только локальные точки Transfer by Van, а дорожный
 расчёт переходит на OSRM. Geoapify — основной дорожный маршрутизатор, OSRM —
 резервный; для резервного маршрута в production задайте собственный `OSRM_URL`,
 поскольку публичный OSRM предназначен только для ознакомления. Рассчитанное время
@@ -196,7 +196,7 @@ EMAIL_PORT=587
 EMAIL_SECURE=false
 EMAIL_USER=your-email@gmail.com
 EMAIL_PASS=ваш-app-password
-EMAIL_FROM="Wayro Transfer <noreply@wayro.cz>"
+EMAIL_FROM="Transfer by Van Transfer <noreply@transferbyvan.cz>"
 ```
 
 ### Перевірка email

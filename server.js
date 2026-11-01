@@ -228,7 +228,10 @@ const TOUR_CATALOG = Object.freeze({
   'karlovy-vary': { name: 'Karlovy Vary', from: 'Praha – centrum', to: 'Karlovy Vary', duration: 10 },
   dresden: { name: 'Dresden', from: 'Praha – centrum', to: 'Drážďany / Dresden', duration: 10 },
   'cesky-krumlov': { name: 'Český Krumlov', from: 'Praha – centrum', to: 'Český Krumlov', duration: 12 },
-  'spindleruv-mlyn': { name: 'Špindlerův Mlýn', from: 'Praha – centrum', to: 'Špindlerův Mlýn', duration: 12 }
+  'spindleruv-mlyn': { name: 'Špindlerův Mlýn', from: 'Praha – centrum', to: 'Špindlerův Mlýn', duration: 12 },
+  berlin: { name: 'Berlin', from: 'Praha – centrum', to: 'Berlín / Berlin', duration: 13 },
+  vienna: { name: 'Vienna', from: 'Praha – centrum', to: 'Vídeň / Vienna', duration: 13 },
+  munich: { name: 'Munich', from: 'Praha – centrum', to: 'Mnichov / Munich', duration: 13 }
 });
 
 const PLACES = [
@@ -285,7 +288,7 @@ const place = name => PLACES.find(p => p.n.toLowerCase() === String(name || '').
 
 // ============ Розрахунок ціни ============
 // ============ Geocoding + routing (реальна відстань) ============
-const UA = 'WayroTransfer/3.0';
+const UA = 'TransferByVan/3.0';
 const GEO_CACHE = new Map();
 const ROUTE_CACHE = new Map();
 const CACHE_TTL = 1000 * 60 * 60 * 12;
@@ -395,14 +398,14 @@ async function roadRoute(a, b) {
   if (hit && Date.now() - hit.at < CACHE_TTL) return hit;
 
   const endpoint = (process.env.OSRM_URL || 'https://router.project-osrm.org').replace(/\/+$/, '');
-  const url = `${endpoint}/route/v1/driving/${a.lng},${a.lat};${b.lng},${b.lat}?overview=false`;
+  const url = `${endpoint}/route/v1/driving/${a.lng},${a.lat};${b.lng},${b.lat}?overview=simplified&geometries=geojson`;
   const r = await fetch(url, { headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(9000) });
   if (!r.ok) throw new Error('router unavailable');
   const d = await r.json();
   const route = d.routes && d.routes[0];
   if (!route || !Number.isFinite(route.distance) || !Number.isFinite(route.duration) || route.distance < 10) throw new Error('no route found');
 
-  const out = { at: Date.now(), km: route.distance / 1000, min: route.duration / 60, source: 'osrm' };
+  const out = { at: Date.now(), km: route.distance / 1000, min: route.duration / 60, source: 'osrm', path: (route.geometry?.coordinates || []).map(([lng, lat]) => [lat, lng]) };
   if (ROUTE_CACHE.size >= 800) ROUTE_CACHE.delete(ROUTE_CACHE.keys().next().value);
   ROUTE_CACHE.set(key, out);
   return out;
@@ -422,12 +425,14 @@ async function geoapifyRoute(a, b) {
   if (!response.ok) throw new Error('geoapify_routing_unavailable');
   const data = await response.json();
   const route = data.features?.[0]?.properties;
+  const geomLines = data.features?.[0]?.geometry;
+  const coords = geomLines?.type === 'MultiLineString' ? geomLines.coordinates.flat() : geomLines?.coordinates || [];
   const distanceKm = route?.distance_units === 'kilometers' ? route.distance : route?.distance / 1000;
   const durationMin = route?.time / 60;
   if (!Number.isFinite(distanceKm) || distanceKm <= 0 || !Number.isFinite(durationMin) || durationMin <= 0) {
     throw new Error('geoapify_routing_unavailable');
   }
-  const result = { at: Date.now(), km: distanceKm, min: durationMin, source: 'geoapify' };
+  const result = { at: Date.now(), km: distanceKm, min: durationMin, source: 'geoapify', path: coords.map(([lng, lat]) => [lat, lng]) };
   if (ROUTE_CACHE.size >= 800) ROUTE_CACHE.delete(ROUTE_CACHE.keys().next().value);
   ROUTE_CACHE.set(cacheKey, result);
   return result;
@@ -456,7 +461,8 @@ function locationSnapshot(point, entered = '') {
   return {
     label, address, full: full || textValue(entered, 700),
     id: textValue(p.id, 400), kind: textValue(p.kind, 40) || 'address',
-    lat: safePoint(p) ? p.lat : null, lng: safePoint(p) ? p.lng : null
+    lat: safePoint(p) ? p.lat : null, lng: safePoint(p) ? p.lng : null,
+    time: /^([01]\d|2[0-3]):[0-5]\d$/.test(p.time || '') ? p.time : ''
   };
 }
 function compatibleLocation(point, entered) {
@@ -479,6 +485,7 @@ function orderLocations(order) {
 const locationText = p => p ? p.full || [p.label, p.address].filter(Boolean).join(', ') : '';
 function validTourStops(stops) {
   return Array.isArray(stops) && stops.length <= 5
+    && stops.every(point => point.time == null || point.time === '' || /^([01]\d|2[0-3]):[0-5]\d$/.test(point.time))
     && stops.every(point => safePoint(point) && typeof point.label === 'string' && point.label.trim().length >= 2 && point.label.length <= 160
       && (point.address == null || typeof point.address === 'string' && point.address.length <= 500)
       && (point.full == null || typeof point.full === 'string' && point.full.length <= 700))
@@ -530,12 +537,19 @@ function priceForCar(carKey, ctx) {
   return { base: car.base, kind: 'unknown' };
 }
 
+// 1 child seat is free, every further seat costs SEAT_FEE CZK per leg of the ride.
+const SEAT_FEE = 100;
+function seatSurcharge(booking) {
+  const seats = Number.isInteger(booking.seats) ? booking.seats : 0;
+  const legs = booking.roundtrip && booking.mode !== 'hourly' ? 2 : 1;
+  return Math.max(0, seats - 1) * SEAT_FEE * legs;
+}
 function applyExtras(base, booking) {
   const returnMultiplier = booking.roundtrip && booking.mode !== 'hourly' ? 2 : 1;
   const subtotal = base * returnMultiplier;
   let discount = 0;
   const promo = String(booking.promo || '').toUpperCase();
-  if (promo === 'WAYRO10' || promo.startsWith('WY-')) discount = Math.round(subtotal * 0.10);
+  if (promo === 'TBV10' || promo.startsWith('WY-')) discount = Math.round(subtotal * 0.10);
   else if (promo === 'PRG15') discount = Math.round(subtotal * 0.15);
   return { base, subtotal, discount, total: Math.max(0, subtotal - discount), currency: 'CZK' };
 }
@@ -561,7 +575,7 @@ function bookingConfirmationTemplate(order) {
     [tr('Zavazadla / dětské sedačky', 'Large bags / cabin bags / child seats'), `${b.bagsBig || 0} / ${b.bagsSmall || 0} / ${b.seats || 0}`],
     ...(b.flight ? [[tr('Let', 'Flight'), b.flight]] : []),
     [tr('Kontakt', 'Contact'), [b.name, b.phone, b.email].filter(Boolean).join(' / ')],
-    [tr('Platba', 'Payment'), b.pay === 'online' ? tr('Online, stav ověřuje Stripe', 'Online, verified by Stripe') : b.pay === 'card' ? tr('Kartou u řidiče', 'Card to driver') : tr('Hotově u řidiče', 'Cash to driver')],
+    [tr('Platba', 'Payment'), b.pay === 'paypal' ? 'PayPal' : b.pay === 'qr' ? tr('QR platba (bankovní převod)', 'QR payment (bank transfer)') : b.pay === 'online' ? tr('Online, stav ověřuje Stripe', 'Online, verified by Stripe') : b.pay === 'card' ? tr('Kartou u řidiče', 'Card to driver') : tr('Hotově u řidiče', 'Cash to driver')],
     [tr('Cena', 'Price'), `${order.amount} ${order.currency}`],
     ...(b.notes ? [[tr('Poznámka', 'Note'), b.notes]] : []),
     [tr('Provozovatel', 'Operator'), 'Serhii Boliak, IČO: 08865931'],
@@ -676,7 +690,7 @@ app.get('/api/geocode', async (req, res) => {
 
   const local = PLACES
     .filter(p => p.n.toLowerCase().includes(q.toLowerCase()))
-    .map(p => ({ label: p.n, full: p.n, address: p.n, lat: p.lat, lng: p.lng, known: true, source: 'wayro', kind: 'address' }));
+    .map(p => ({ label: p.n, full: p.n, address: p.n, lat: p.lat, lng: p.lng, known: true, source: 'local', kind: 'address' }));
 
   try {
     const remote = await geocode(q, { lang: req.query.lang, lat: req.query.lat ? Number(req.query.lat) : undefined, lng: req.query.lng ? Number(req.query.lng) : undefined });
@@ -710,7 +724,7 @@ function pragueTimestamp(date, time) {
   return local === time ? instant.getTime() : NaN;
 }
 function bookingError(b) {
-  const caps = { sedan: [4, 3, 1], minibus: [7, 7, 1], mercE: [3, 2, 0], mercV: [7, 7, 1] };
+  const caps = { sedan: [4, 3, 3], minibus: [7, 7, 3], mercE: [3, 2, 0], mercV: [7, 7, 3] };
   if (!b || !Object.hasOwn(caps, b.car) || !['from', 'to', 'long', 'hourly'].includes(b.mode)) return 'Invalid vehicle or trip type.';
   if (b.tourId) {
     const tour = typeof b.tourId === 'string' && Object.hasOwn(TOUR_CATALOG, b.tourId) ? TOUR_CATALOG[b.tourId] : null;
@@ -719,13 +733,13 @@ function bookingError(b) {
     if (!tour || b.mode !== 'long' || b.from !== tour.from || b.to !== tour.to || b.car !== 'minibus' || b.roundtrip !== true || b.pay !== 'online'
       || !/^0[6-9]:00$|^10:00$/.test(b.time || '') || b.retDate !== b.date || b.retTime !== returnTime) return 'Invalid tour booking.';
     if (!validTourStops(b.tourStops)) return 'Choose up to five distinct tour stops from the place suggestions.';
-  } else if (b.tourStops != null && (!Array.isArray(b.tourStops) || b.tourStops.length)) {
-    return 'Tour stops are only valid for a tour booking.';
+  } else if (b.tourStops != null && (!validTourStops(b.tourStops) || (b.mode === 'hourly' && b.tourStops.length))) {
+    return 'Choose up to five distinct stops from the place suggestions.';
   }
   if (!bounded(b.pax, 1, caps[b.car][0]) || !bounded(b.seats, 0, Math.min(b.pax, caps[b.car][2])) || !bounded(b.bagsBig, 0, caps[b.car][1]) || !bounded(b.bagsSmall, 0, 4)) return 'Vehicle capacity exceeded.';
   if (b.bagsBig * 2 + b.bagsSmall + (b.pram ? 2 : 0) > caps[b.car][1] * 2 + 2) return 'Luggage capacity exceeded.';
   if (typeof b.name !== 'string' || b.name.trim().length < 2 || b.name.length > 60 || typeof b.email !== 'string' || !/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(b.email) || b.email.length > 120 || !/^[+\d ()-]{9,25}$/.test(String(b.phone || ''))) return 'Please check the contact details.';
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(b.date || '') || !/^\d{2}:\d{2}$/.test(b.time || '') || !['cash', 'card', 'online'].includes(b.pay) || b.consent !== true) return 'Invalid booking details.';
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(b.date || '') || !/^\d{2}:\d{2}$/.test(b.time || '') || !['cash', 'card', 'online', 'paypal', 'qr'].includes(b.pay) || b.consent !== true) return 'Invalid booking details.';
   const pickup = pragueTimestamp(b.date, b.time);
   if (!Number.isFinite(pickup) || pickup < Date.now() + 30 * 60000) return 'Choose pickup at least 30 minutes ahead in Prague time.';
   if (b.roundtrip) {
@@ -745,10 +759,10 @@ app.post('/api/quote', async (req, res) => {
       const tour = typeof booking.tourId === 'string' && Object.hasOwn(TOUR_CATALOG, booking.tourId) ? TOUR_CATALOG[booking.tourId] : null;
       if (!tour || booking.mode !== 'long' || booking.from !== tour.from || booking.to !== tour.to || booking.car !== 'minibus' || booking.roundtrip !== true || booking.pay !== 'online') return res.status(400).json({ ok: false, reason: 'invalid_tour' });
       if (!validTourStops(booking.tourStops)) return res.status(400).json({ ok: false, reason: 'invalid_tour_stops' });
-    } else if (booking.tourStops != null && (!Array.isArray(booking.tourStops) || booking.tourStops.length)) {
+    } else if (booking.tourStops != null && (!validTourStops(booking.tourStops) || (booking.mode === 'hourly' && booking.tourStops.length))) {
       return res.status(400).json({ ok: false, reason: 'invalid_tour_stops' });
     }
-    let from = null, to = null, via = null, tourStops = [], km = null, min = null, outboundKm = null, fixedAirport = false, routeSource = null;
+    let from = null, to = null, via = null, tourStops = [], km = null, min = null, outboundKm = null, fixedAirport = false, routeSource = null, routePath = null;
     if (booking.mode === 'hourly') {
       if (!bounded(booking.hours, 2, 12)) return res.status(400).json({ ok: false, reason: 'invalid_hours' });
       from = await resolvePoint(bookingPoint(booking, 'from'));
@@ -757,7 +771,7 @@ app.post('/api/quote', async (req, res) => {
       [from, to] = await Promise.all([resolvePoint(bookingPoint(booking, 'from')), resolvePoint(bookingPoint(booking, 'to'))]);
       if (!from || !to) return res.status(422).json({ ok: false, reason: 'select_address' });
       if (nearKm(from, to) < .01) return res.status(422).json({ ok: false, reason: 'same_address' });
-      fixedAirport = !booking.stopover && ((isAirport(from) && isPragueCity(to)) || (isAirport(to) && isPragueCity(from)));
+      fixedAirport = !booking.stopover && !(booking.tourStops || []).length && ((isAirport(from) && isPragueCity(to)) || (isAirport(to) && isPragueCity(from)));
       via = booking.stopover ? await resolvePoint(booking.stopoverGeo) : null;
       if (booking.stopover && (!via || via.label !== booking.stopover)) return res.status(422).json({ ok: false, reason: 'select_stopover' });
       tourStops = (booking.tourStops || []).map(point => locationSnapshot(point, point.label));
@@ -770,12 +784,15 @@ app.post('/api/quote', async (req, res) => {
       if (booking.roundtrip) for (let i = 1; i < returnPoints.length; i++) returnLegs.push(await routeLeg(returnPoints[i - 1], returnPoints[i]));
       const allLegs = [...outboundLegs, ...returnLegs];
       outboundKm = outboundLegs.reduce((sum, leg) => sum + leg.km, 0);
+      const fullPath = outboundLegs.flatMap(leg => leg.path || []);
+      const step = Math.max(1, Math.ceil(fullPath.length / 500));
+      routePath = fullPath.filter((_, i) => i % step === 0 || i === fullPath.length - 1).map(([la, ln]) => [Math.round(la * 1e5) / 1e5, Math.round(ln * 1e5) / 1e5]);
       km = allLegs.reduce((sum, leg) => sum + leg.km, 0);
       min = allLegs.reduce((sum, leg) => sum + leg.min, 0);
       routeSource = [...new Set(allLegs.map(leg => leg.source || 'osrm'))].join('+');
     }
 
-    const clarionAirport = booking.mode !== 'hourly' && !booking.stopover
+    const clarionAirport = booking.mode !== 'hourly' && !booking.stopover && !(booking.tourStops || []).length
       && ((isAirport(from) && isClarionCongress(to)) || (isClarionCongress(from) && isAirport(to)));
     const prices = {};
     for (const key of Object.keys(FLEET_TARIFFS)) {
@@ -805,6 +822,8 @@ app.post('/api/quote', async (req, res) => {
       km: km ? Math.round(km * 10) / 10 : null,
       min: min ? Math.max(1, Math.round(min)) : null,
       routeSource: km ? routeSource : null,
+      routePath,
+      seatFee: SEAT_FEE,
       expiresAt: Date.now() + 15 * 60000,
       prices
     };
@@ -817,6 +836,21 @@ app.post('/api/quote', async (req, res) => {
   }
 });
 
+// Platba QR (SPAYD) a PayPal.me: ruční ověření obsluhou, bez automatického potvrzení.
+const PAY_ACCOUNT = process.env.PAYMENT_ACCOUNT || '4160775073/0800';
+function czIban(account) {
+  const [num, bank] = account.split('/');
+  const [pre, acc] = num.includes('-') ? num.split('-') : ['', num];
+  const bban = bank.padStart(4, '0') + pre.padStart(6, '0') + acc.padStart(10, '0');
+  const rem = BigInt(bban + '123500') % 97n; // C=12 Z=35, check digits 00
+  return 'CZ' + String(98n - rem).padStart(2, '0') + bban;
+}
+const PAY_IBAN = process.env.PAYMENT_IBAN || czIban(PAY_ACCOUNT);
+const PAYPAL_ME = String(process.env.PAYPAL_ME || '').replace(/[^A-Za-z0-9._-]/g, '');
+function spaydFor(amount, vs, orderId) {
+  return `SPD*1.0*ACC:${PAY_IBAN}*AM:${Number(amount).toFixed(2)}*CC:CZK*X-VS:${vs}*RN:TRANSFER BY VAN*MSG:${orderId.replace(/[^A-Z0-9-]/g, '').slice(0, 30)}`;
+}
+
 // Створення замовлення + email
 app.post('/api/checkout', async (req, res) => {
   try {
@@ -825,13 +859,17 @@ app.post('/api/checkout', async (req, res) => {
     if (invalid) return res.status(400).json({ error: invalid });
     const quote = QUOTES.get(quoteId);
     if (!quote || quote.expiresAt < Date.now() || quote.fingerprint !== routeFingerprint(booking)) return res.status(409).json({ error: 'Quote expired. Please calculate the route again.' });
-    const price = quote.prices[booking.car];
+    const price0 = quote.prices[booking.car];
+    const seatFee = seatSurcharge(booking);
+    const price = price0 && { ...price0, total: price0.total + seatFee, seatFee };
     if (!price || expectedTotal !== price.total) return res.status(409).json({ error: 'Price changed. Review the quote before paying.' });
     const idempotencyKey = String(req.headers['idempotency-key'] || '');
     if (!/^[a-z0-9-]{20,80}$/i.test(idempotencyKey)) return res.status(400).json({ error: 'An idempotency key is required.' });
     const previous = CHECKOUT_REQUESTS.get(idempotencyKey);
     if (previous) return res.status(409).json({ error: 'This request has already been received. Check your booking before submitting again.' });
     const wantsOnlinePayment = booking.pay === 'online';
+    const wantsPayPal = booking.pay === 'paypal', wantsQr = booking.pay === 'qr';
+    if (wantsPayPal && !PAYPAL_ME) return res.status(503).json({ error: 'PayPal is not configured. Choose another payment method.' });
     if (wantsOnlinePayment && !stripe) return res.status(503).json({ error: 'Online payment is not configured. Choose payment to the driver.' });
     const orderId = `WY-${crypto.randomUUID().toUpperCase()}`;
     const accessToken = newToken();
@@ -849,7 +887,7 @@ app.post('/api/checkout', async (req, res) => {
       stage: 0,
       amount: price.total,
       currency: price.currency,
-      paymentStatus: wantsOnlinePayment ? 'pending' : 'pay_on_arrival',
+      paymentStatus: wantsOnlinePayment ? 'pending' : wantsPayPal || wantsQr ? 'awaiting_payment' : 'pay_on_arrival',
       email: booking.email,
       name: booking.name,
       createdAt: new Date().toISOString(),
@@ -875,6 +913,21 @@ app.post('/api/checkout', async (req, res) => {
       }
     }
     persistData();
+
+    if (wantsPayPal || wantsQr) {
+      const variableSymbol = String(Date.now()).slice(-10);
+      order.variableSymbol = variableSymbol;
+      persistData();
+      return res.json({
+        orderId, accessToken, locations: orderLocations(order), distanceKm: quote.km, durationMin: quote.min, emailStatus: order.emailStatus,
+        confirmationUrl: null,
+        amount: { value: price.total, currency: 'CZK' },
+        paymentStatus: 'awaiting_payment',
+        payment: wantsPayPal
+          ? { method: 'paypal', url: `https://www.paypal.com/paypalme/${encodeURIComponent(PAYPAL_ME)}/${price.total}CZK` }
+          : { method: 'qr', spayd: spaydFor(price.total, variableSymbol, orderId), iban: PAY_IBAN, account: PAY_ACCOUNT, variableSymbol }
+      });
+    }
 
     if (!wantsOnlinePayment) {
       return res.json({
@@ -1170,6 +1223,8 @@ app.get('/api/config', (req, res) => {
     emailConfigured: Boolean(transporter),
     emailVerified,
     stripe: Boolean(stripe),
+    paypal: Boolean(PAYPAL_ME),
+    qr: true,
     placesConfigured: configured(process.env.GEOAPIFY_API_KEY),
     placesProvider: configured(process.env.GEOAPIFY_API_KEY) ? 'geoapify' : null,
     driverConfigured: configured(ADMIN_TOKEN) && ADMIN_TOKEN.length >= 32,
