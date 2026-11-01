@@ -1123,7 +1123,7 @@
         </div>
         <div class="footer-col">
           <h4 data-cs="Provozovatel" data-en="Operator">Provozovatel</h4>
-          <p>Serhii Boliak<br>IČO: 08865931<br><span data-cs="silniční motorová doprava" data-en="road passenger transport">silniční motorová doprava</span><br><span data-cs="vznik živnosti 22. 2. 2020" data-en="registered 22 Feb 2020">vznik živnosti 22. 2. 2020</span></p>
+          <p>Serhii Boliak<br>IČO: 08865931<br><span data-cs="Kancelář: Královická 2297/48, 100 00 Praha – Strašnice" data-en="Office: Královická 2297/48, 100 00 Prague – Strašnice">Kancelář: Královická 2297/48, 100 00 Praha – Strašnice</span><br><span data-cs="silniční motorová doprava" data-en="road passenger transport">silniční motorová doprava</span><br><span data-cs="vznik živnosti 22. 2. 2020" data-en="registered 22 Feb 2020">vznik živnosti 22. 2. 2020</span></p>
         </div>
         <div class="footer-col">
           <h4 data-cs="Účty" data-en="Accounts">Účty</h4>
@@ -1154,7 +1154,7 @@
       flightEndpoint: '/api/flight',
       configEndpoint: '/api/config',
       trackPollMs: 5000,
-      paymentHosts: ['checkout.stripe.com', 'checkout.stripe.dev'], paypalPrefix: 'https://www.paypal.com/paypalme/'
+      paymentHosts: ['checkout.stripe.com', 'checkout.stripe.dev'], paypalPrefix: 'https://www.paypal.com/'
     });
     const SITE = Object.freeze({ faq: 'https://www.phcars.cz/faq/', app: 'https://letiste-praha.taxi/aplikace/', admin: 'https://book.letiste-praha.taxi/bookings', home: 'https://www.phcars.cz/' });
     const PRIVATE_DATA_PATH = '/wry-ops-8f3c9a71d6e24b50';
@@ -1225,6 +1225,7 @@
       { n: 'Praha – Karlín', g: 'prg-city', km: 4, lat: 50.0900, lng: 14.4450 },
       { n: 'Praha – Dejvice', g: 'prg-city', km: 6, lat: 50.1065, lng: 14.3860 },
       { n: 'Praha – Chodov', g: 'prg-city', km: 11, lat: 50.0340, lng: 14.4980 },
+      { n: 'Kancelář – Královická 2297/48, Praha-Strašnice', g: 'prg-city', km: 9, lat: 50.065065, lng: 14.5103611 },
       { n: 'Kladno', g: 'cz', km: 30, lat: 50.1461, lng: 14.1067 },
       { n: 'Karlovy Vary', g: 'cz', km: 130, lat: 50.2326, lng: 12.8714 },
       { n: 'Špindlerův Mlýn', g: 'cz', km: 150, lat: 50.7525, lng: 15.4080 },
@@ -1676,6 +1677,7 @@
               <div class="contact-rows">
                 <div class="contact-row"><span>${L('Jméno', 'Name')}</span><strong>Serhii Boliak</strong></div>
                 <div class="contact-row"><span>IČO</span><strong>08865931</strong></div>
+                <div class="contact-row"><span>${L('Kancelář', 'Office')}</span><strong>Královická 2297/48, 100 00 Praha – Strašnice</strong></div>
                 <div class="contact-row"><span>${L('Povolení', 'Licence')}</span><strong>${L('silniční osobní doprava', 'road passenger transport')}</strong></div>
                 <div class="contact-row"><span>E-mail</span><strong>cztransfertaxi@gmail.com</strong></div>
               </div>

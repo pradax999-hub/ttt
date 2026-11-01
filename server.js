@@ -242,6 +242,7 @@ const PLACES = [
   { n: 'Praha – Karlín', g: 'prg-city', km: 4, lat: 50.0900, lng: 14.4450 },
   { n: 'Praha – Dejvice', g: 'prg-city', km: 6, lat: 50.1065, lng: 14.3860 },
   { n: 'Praha – Chodov', g: 'prg-city', km: 11, lat: 50.0340, lng: 14.4980 },
+  { n: 'Kancelář – Královická 2297/48, Praha-Strašnice', g: 'prg-city', km: 9, lat: 50.065065, lng: 14.5103611 },
   { n: 'Kladno', g: 'cz', km: 30, lat: 50.1461, lng: 14.1067 },
   { n: 'Karlovy Vary', g: 'cz', km: 130, lat: 50.2326, lng: 12.8714 },
   { n: 'Špindlerův Mlýn', g: 'cz', km: 150, lat: 50.7525, lng: 15.4080 },
@@ -847,6 +848,10 @@ function czIban(account) {
 }
 const PAY_IBAN = process.env.PAYMENT_IBAN || czIban(PAY_ACCOUNT);
 const PAYPAL_ME = String(process.env.PAYPAL_ME || '').replace(/[^A-Za-z0-9._-]/g, '');
+const PAYPAL_ID = String(process.env.PAYPAL_MERCHANT_ID || '52C4EWHSTRW3S').replace(/[^A-Za-z0-9]/g, '');
+const paypalUrl = (amount, orderId) => PAYPAL_ME
+  ? `https://www.paypal.com/paypalme/${encodeURIComponent(PAYPAL_ME)}/${amount}CZK`
+  : `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=${PAYPAL_ID}&currency_code=CZK&amount=${amount}&item_name=${encodeURIComponent('Transfer by Van ' + orderId)}&invoice=${encodeURIComponent(orderId)}`;
 function spaydFor(amount, vs, orderId) {
   return `SPD*1.0*ACC:${PAY_IBAN}*AM:${Number(amount).toFixed(2)}*CC:CZK*X-VS:${vs}*RN:TRANSFER BY VAN*MSG:${orderId.replace(/[^A-Z0-9-]/g, '').slice(0, 30)}`;
 }
@@ -869,7 +874,7 @@ app.post('/api/checkout', async (req, res) => {
     if (previous) return res.status(409).json({ error: 'This request has already been received. Check your booking before submitting again.' });
     const wantsOnlinePayment = booking.pay === 'online';
     const wantsPayPal = booking.pay === 'paypal', wantsQr = booking.pay === 'qr';
-    if (wantsPayPal && !PAYPAL_ME) return res.status(503).json({ error: 'PayPal is not configured. Choose another payment method.' });
+    if (wantsPayPal && !PAYPAL_ME && !PAYPAL_ID) return res.status(503).json({ error: 'PayPal is not configured. Choose another payment method.' });
     if (wantsOnlinePayment && !stripe) return res.status(503).json({ error: 'Online payment is not configured. Choose payment to the driver.' });
     const orderId = `WY-${crypto.randomUUID().toUpperCase()}`;
     const accessToken = newToken();
@@ -924,7 +929,7 @@ app.post('/api/checkout', async (req, res) => {
         amount: { value: price.total, currency: 'CZK' },
         paymentStatus: 'awaiting_payment',
         payment: wantsPayPal
-          ? { method: 'paypal', url: `https://www.paypal.com/paypalme/${encodeURIComponent(PAYPAL_ME)}/${price.total}CZK` }
+          ? { method: 'paypal', url: paypalUrl(price.total, orderId) }
           : { method: 'qr', spayd: spaydFor(price.total, variableSymbol, orderId), iban: PAY_IBAN, account: PAY_ACCOUNT, variableSymbol }
       });
     }
@@ -1223,7 +1228,7 @@ app.get('/api/config', (req, res) => {
     emailConfigured: Boolean(transporter),
     emailVerified,
     stripe: Boolean(stripe),
-    paypal: Boolean(PAYPAL_ME),
+    paypal: Boolean(PAYPAL_ME || PAYPAL_ID),
     qr: true,
     placesConfigured: configured(process.env.GEOAPIFY_API_KEY),
     placesProvider: configured(process.env.GEOAPIFY_API_KEY) ? 'geoapify' : null,
