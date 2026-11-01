@@ -50,7 +50,7 @@ function escapeHtml(value) {
 app.disable('x-powered-by');
 app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('Referrer-Policy', 'no-referrer');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader('Permissions-Policy', 'geolocation=(self), camera=(), microphone=()');
   res.setHeader('X-Frame-Options', 'SAMEORIGIN');
   if (req.path.startsWith('/api/')) res.setHeader('Cache-Control', 'no-store');

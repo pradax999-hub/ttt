@@ -2111,7 +2111,7 @@
       if (!window.L || pts.length < 2) { el.innerHTML = `<p class="route-map-empty">${L('Mapa trasy se zobrazí po výběru míst a výpočtu ceny.', 'The route map appears after you pick places and the fare is calculated.')}</p>`; el.style.height = 'auto'; el.style.border = '0'; return; }
       el.innerHTML = ''; el.style.cssText = '';
       const map = window.L.map(el, { scrollWheelZoom: false, attributionControl: true });
-      window.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' }).addTo(map);
+      window.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, referrerPolicy: 'strict-origin-when-cross-origin', attribution: '© OpenStreetMap contributors' }).addTo(map);
       const line = (d.path && d.path.length > 1 ? d.path : pts.map(p => [p.lat, p.lng]));
       const poly = window.L.polyline(line, { color: '#f5c66b', weight: 5, opacity: .95 }).addTo(map);
       pts.forEach((p, i) => window.L.marker([p.lat, p.lng], { icon: window.L.divIcon({ className: '', html: `<span class="pin-dot">${i === 0 ? 'A' : i === pts.length - 1 ? 'B' : i}</span>`, iconSize: [24, 24], iconAnchor: [12, 12] }), title: p.label }).addTo(map));
