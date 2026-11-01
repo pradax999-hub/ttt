@@ -28,5 +28,8 @@ Recommended export:
 - remove or blur all license plates before upload
 - do not use customer faces without written permission
 
-The website currently uses a temporary stock fallback for slots 01 and 04.
-All other missing files show an explicit upload placeholder instead of repeating a photo.
+Only the files listed in FLEET[key].shots (index.html) are shown, in order.
+When you add a photo, append its label index (0-11, order above) to that list.
+Current sets: sedan = one Skoda Superb set (Emrah Ayvali, Pexels, exterior only);
+mercV = owner photo + one V-Class/VIP van set (Yusuf Celik, Pexels);
+mercE = owner photos; minibus = owner photo. All plates are blurred.

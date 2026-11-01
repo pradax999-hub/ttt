@@ -1178,20 +1178,18 @@
     const FLEET = {
       sedan:   { label: 'Sedan',       base: 690,  pax: 4, bags: 3, seats: 3, rate: 34, city: 390, hour: 690,  ico: 'car',
                  model: { cs: 'Škoda Superb nebo obdobný vůz', en: 'Škoda Superb or similar' },
-                 img: 'https://images.pexels.com/photos/15194845/pexels-photo-15194845.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200', inside: null },
+                 shots: [0, 0, 1, 1, 1, 2] },
       minibus: { label: 'Minibus',     base: 990, pax: 7, bags: 7, seats: 3, rate: 43, city: 590, hour: 990,  ico: 'van',
                  model: { cs: 'Sedmimístný minivan / Mercedes-Benz V-Class', en: 'Seven-seat minivan / Mercedes-Benz V-Class' },
-                 img: 'https://images.pexels.com/photos/36377060/pexels-photo-36377060.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200',
-                 inside: 'https://images.pexels.com/photos/17455632/pexels-photo-17455632.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200' },
+                 shots: [0] },
       mercE:   { label: 'Mercedes E',  base: 1290, pax: 3, bags: 2, seats: 0, rate: 55, city: 790, hour: 1190, ico: 'car',
                  model: { cs: 'Mercedes-Benz třídy E', en: 'Mercedes-Benz E-Class' },
-                 img: 'https://images.pexels.com/photos/19758544/pexels-photo-19758544.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200',
-                 inside: 'https://images.pexels.com/photos/11877387/pexels-photo-11877387.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200' },
+                 shots: [0, 1, 2, 2, 3, 4, 5] },
       mercV:   { label: 'Mercedes V',  base: 1790, pax: 7, bags: 7, seats: 3, rate: 65, city: 990, hour: 1490, ico: 'van',
                  model: { cs: 'Mercedes-Benz třídy V', en: 'Mercedes-Benz V-Class' },
-                 img: 'https://images.pexels.com/photos/17455633/pexels-photo-17455633.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200',
-                 inside: 'https://images.pexels.com/photos/17455632/pexels-photo-17455632.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200' }
+                 shots: [0, 0, 1, 2, 4, 4, 4, 5, 5, 5, 5] }
     };
+    for (const [key, car] of Object.entries(FLEET)) car.img = `images/fleet/${key}/01.webp`;
     const TOURS = [
       { id: 'karlovy-vary', to: 'Karlovy Vary', img: 'images/tours/karlovy-vary.jpg', name: { cs: 'Karlovy Vary', en: 'Karlovy Vary' }, title: { cs: 'Karlovy Vary: kolonády a lázeňské město', en: 'Karlovy Vary: colonnades and spa town' }, detail: { cs: 'Celodenní soukromý výlet z Prahy s volným časem v centru Karlových Varů.', en: 'A private day trip from Prague with free time in central Karlovy Vary.' }, duration: 10 },
       { id: 'dresden', to: 'Drážďany / Dresden', img: 'images/tours/dresden.jpg', name: { cs: 'Drážďany', en: 'Dresden' }, title: { cs: 'Drážďany: historické centrum', en: 'Dresden: historic city centre' }, detail: { cs: 'Soukromá zpáteční cesta do Saska a čas na prohlídku města.', en: 'A private round trip to Saxony with time to explore the city.' }, duration: 10 },
@@ -1206,13 +1204,12 @@
       en: ['Front view','Side view','Rear view','Front interior','Rear seats','Seats and space','Dashboard','Luggage space','Side doors','Child seat','Vehicle detail','Vehicle at night']
     };
     function galleryPhotos(key) {
-      const car = FLEET[key], labels = GALLERY_LABELS[lang] || GALLERY_LABELS.cs;
-      return labels.map((label, index) => ({
+      const labels = GALLERY_LABELS[lang] || GALLERY_LABELS.cs;
+      return FLEET[key].shots.map((shot, index) => ({
         number: index + 1,
-        label,
+        label: labels[shot],
         src: `images/fleet/${key}/${String(index + 1).padStart(2, '0')}.webp`,
-        // Only slots 1 and 4 have a temporary stock fallback. Other empty slots stay visibly empty.
-        fallback: index === 0 ? car.img : index === 3 ? car.inside || '' : ''
+        fallback: ''
       }));
     }
     const AIRPORT = 'Letiště Praha (PRG)';
@@ -2893,16 +2890,15 @@
 
     function gallery(k, inside = false) {
       if (!FLEET[k]) return;
-      gCar = k; gIdx = inside ? 3 : 0; kind = 'gal'; renderGallery(); open();
+      gCar = k; gIdx = inside ? Math.max(0, FLEET[k].shots.findIndex(shot => shot >= 3)) : 0; kind = 'gal'; renderGallery(); open();
     }
     const galleryEmpty = photo => `<div class="gallery-slot" data-gallery-empty="${photo.number}">${icon('car')}<div><strong>${esc(photo.label)}</strong><small>${L(`Nahrajte soubor ${photo.src}`, `Upload ${photo.src}`)}</small></div></div>`;
     function renderGallery() {
       const c = FLEET[gCar], photos = galleryPhotos(gCar), photo = photos[gIdx] || photos[0];
       mbody.innerHTML = dHead(L('Vozový park', 'Fleet') + ' / ' + c.label, c.model[lang] || c.model.cs, `${L('Cena letiště – Praha', 'Airport – Prague price')}: ${money(c.base)} · ${L('max', 'max')} ${c.pax} ${L('osob', 'people')} · ${c.bags} ${L('zavazadel', 'bags')} · ${c.seats} ${L('autosedaček', 'child seats')}`)
         + `<div class="gallery-stage" id="gallery-stage"><img class="gallery-img" src="${esc(photo.src)}" data-fallback="${esc(photo.fallback)}" data-gallery-main="${photo.number}" alt="${esc(c.label + ' — ' + photo.label)}"></div>
-        <div class="g-ctrl"><span><strong>${esc(photo.label)}</strong> · ${photo.number}/12</span><div class="g-arrows"><button class="icon-btn" type="button" data-a="g-prev" aria-label="${L('Předchozí fotografie', 'Previous photo')}">${icon('arrow')}</button><button class="icon-btn" type="button" data-a="g-next" aria-label="${L('Další fotografie', 'Next photo')}">${icon('arrow')}</button></div></div>
+        <div class="g-ctrl"><span><strong>${esc(photo.label)}</strong> · ${photo.number}/${photos.length}</span><div class="g-arrows"><button class="icon-btn" type="button" data-a="g-prev" aria-label="${L('Předchozí fotografie', 'Previous photo')}">${icon('arrow')}</button><button class="icon-btn" type="button" data-a="g-next" aria-label="${L('Další fotografie', 'Next photo')}">${icon('arrow')}</button></div></div>
         <div class="gallery-thumbs" aria-label="${L('Náhledy fotografií', 'Photo thumbnails')}">${photos.map((item, index) => `<button class="gallery-thumb ${index === gIdx ? 'on' : ''}" type="button" data-a="g-select" data-v="${index}" aria-label="${esc(item.label)}" aria-pressed="${index === gIdx}"><img src="${esc(item.src)}" data-fallback="${esc(item.fallback)}" data-gallery-thumb="${item.number}" alt=""><span>${item.number}</span></button>`).join('')}</div>
-        <p class="fine">${L('Galerie má 12 míst pro každý vůz. Vlastní fotografie nahrajte do uvedených složek; prázdné místo se zobrazí jako výzva k nahrání.', 'Each vehicle has 12 gallery slots. Upload your photos to the listed folders; an empty slot is shown as an upload prompt.')}</p>
         <button class="btn btn-solid wide" type="button" data-a="pick-car" data-v="${gCar}">${L('Vybrat', 'Choose')} ${c.label} ${icon('arrow')}</button></div>`;
       const p = $('[data-a="g-prev"] .icon'); if (p) p.style.transform = 'rotate(180deg)';
     }
@@ -3082,9 +3078,9 @@
           break;
         }
         case 'gallery': gallery(v); break;
-        case 'g-next': gIdx = (gIdx + 1) % 12; renderGallery(); break;
-        case 'g-prev': gIdx = (gIdx + 11) % 12; renderGallery(); break;
-        case 'g-select': gIdx = Math.max(0, Math.min(11, Number(v) || 0)); renderGallery(); break;
+        case 'g-next': gIdx = (gIdx + 1) % FLEET[gCar].shots.length; renderGallery(); break;
+        case 'g-prev': gIdx = (gIdx + FLEET[gCar].shots.length - 1) % FLEET[gCar].shots.length; renderGallery(); break;
+        case 'g-select': gIdx = Math.max(0, Math.min(FLEET[gCar].shots.length - 1, Number(v) || 0)); renderGallery(); break;
         case 'pick-car': if (FLEET[v]) { S.car = v; fitVehicle(); if (modal.open) modal.close(); if (path === '/') { syncHome(); $('.booking')?.scrollIntoView({ block: 'start' }); } else location.hash = '/'; toast(`${FLEET[S.car].label} · ${money(FLEET[S.car].base)} ${L('letiště – Praha', 'airport – Prague')}`); } break;
         case 'trip-filter': tripFilter = v; renderTrips(); anim(app); break;
         case 'add-tour-stop':
