@@ -1184,7 +1184,7 @@
                  shots: [0] },
       mercE:   { label: 'Mercedes E',  base: 1290, pax: 3, bags: 2, seats: 0, rate: 55, city: 790, hour: 1190, ico: 'car',
                  model: { cs: 'Mercedes-Benz třídy E', en: 'Mercedes-Benz E-Class' },
-                 shots: [0, 1, 2, 2, 3, 4, 5] },
+                 shots: [0, 0, 1, 2, 2, 3, 4, 5] },
       mercV:   { label: 'Mercedes V',  base: 1790, pax: 7, bags: 7, seats: 3, rate: 65, city: 990, hour: 1490, ico: 'van',
                  model: { cs: 'Mercedes-Benz třídy V', en: 'Mercedes-Benz V-Class' },
                  shots: [0, 0, 1, 2, 4, 4, 4, 5, 5, 5, 5] }
@@ -1626,7 +1626,7 @@
               <p class="home-lede">${L('Každý krok má jasný stav. U letištního příletu stačí číslo letu, po přistání zapnete telefon a řidič vás kontaktuje.', 'Each step has a clear status. For airport arrivals, just enter the flight number, turn your phone on after landing and the driver contacts you.')}</p>
               <div class="info-stack" style="margin-top:24px">${process.map(([title, text], i) => `<article class="info-row"><span class="info-num">0${i + 1}</span><div><h3>${title}</h3><p>${text}</p></div></article>`).join('')}</div>
             </div>
-            <div class="home-media"><img src="https://images.pexels.com/photos/16453351/pexels-photo-16453351.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200" alt="${L('Cestující v letištní hale', 'Travellers in an airport terminal')}" loading="lazy" decoding="async"><div class="media-caption"><div><strong>${L('PRG pickup', 'PRG pickup')}</strong><span>${L('Terminál 1, Terminál 2 i Hlavní nádraží mají jasný bod setkání.', 'Terminal 1, Terminal 2 and Main Station each have a clear meeting point.')}</span></div><a class="btn btn-ghost btn-small" href="#/letiste">${L('Instrukce', 'Instructions')} ${icon('arrow')}</a></div></div>
+            <div class="home-media"><img src="images/home/prg-terminal-1.webp" alt="${L('Letiště Praha, Terminál 1', 'Prague Airport, Terminal 1')}" loading="lazy" decoding="async"><div class="media-caption"><div><strong>${L('PRG pickup', 'PRG pickup')}</strong><span>${L('Terminál 1, Terminál 2 i Hlavní nádraží mají jasný bod setkání.', 'Terminal 1, Terminal 2 and Main Station each have a clear meeting point.')}</span></div><a class="btn btn-ghost btn-small" href="#/letiste">${L('Instrukce', 'Instructions')} ${icon('arrow')}</a></div></div>
           </div>
         </section>
 

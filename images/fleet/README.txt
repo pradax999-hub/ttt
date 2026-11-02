@@ -30,6 +30,6 @@ Recommended export:
 
 Only the files listed in FLEET[key].shots (index.html) are shown, in order.
 When you add a photo, append its label index (0-11, order above) to that list.
-Current sets: sedan = one Skoda Superb set (Emrah Ayvali, Pexels, exterior only);
+Current sets: sedan = owner cover + one Skoda Superb set (Emrah Ayvali, Pexels, exterior only);
 mercV = owner photo + one V-Class/VIP van set (Yusuf Celik, Pexels);
 mercE = owner photos; minibus = owner photo. All plates are blurred.
